@@ -70,4 +70,4 @@ while True:
             continue
         vastus = arv1 % arv2
 
-    print("Vastus:", vastus)
+    print("Vastus:", vastus) 
