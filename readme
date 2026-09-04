@@ -1,0 +1,38 @@
+Kalkulaator
+
+Lihtne Pythonis tehtud kalkulaator, millega saab teha põhilisi ja natuke keerulisemaid matemaatilisi tehteid.
+
+## Tehtemärgid
+
+| Märk | Tähendus | Näide |
+|------|----------|-------|
+| `+` | Liitmine | `5 + 3 = 8` |
+| `-` | Lahutamine | `5 - 3 = 2` |
+| `*` | Korrutamine | `5 * 3 = 15` |
+| `/` | Jagamine | `6 / 3 = 2` |
+| `**` | Astendamine | `2 ** 3 = 8` |
+| `%` | Jäägi leidmine | `10 % 3 = 1` |
+| `sqrt` | Ruutjuur | `sqrt 9 = 3` |
+
+## 🚪 Programmist väljumine
+
+Programmist väljumiseks kirjuta:
+
+`q`
+
+või
+
+`exit`
+
+## Error handling
+
+Kalkulaator kontrollib ka vigaseid sisendeid.
+
+Näiteks:
+
+- Teksti sisestamine arvu asemel
+- Nulliga jagamine
+- Nulliga jäägi arvutamine
+- Negatiivse arvu ruutjuure arvutamine
+- Tundmatu tehtemärgi sisestamine
+
