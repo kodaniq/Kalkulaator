@@ -8,7 +8,7 @@ while True:
     esimene = input("\nMis on sinu esimene arv? ").strip()
 
     if esimene.lower() in ("q", "exit"):
-        print("Tsau!")
+        print("Headaega!")
         break
 
     try:
@@ -20,7 +20,7 @@ while True:
     tehe = input("Mis tehet tahad teha? (+, -, *, /, **, %, sqrt): ").strip().lower()
 
     if tehe in ("q", "exit"):
-        print("Tsau!")
+        print("Headaega!")
         break
 
     if tehe == "sqrt":
@@ -37,7 +37,7 @@ while True:
     teine = input("Mis on sinu teine arv? ").strip()
 
     if teine.lower() in ("q", "exit"):
-        print("Tsau!")
+        print("Headaega!")
         break
 
     try:
