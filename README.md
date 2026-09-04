@@ -1,6 +1,6 @@
 Kalkulaator
 
-Lihtne Pythonis tehtud kalkulaator, millega saab teha põhilisi ja natuke keerulisemaid matemaatilisi tehteid.
+Pythoni põhine  kalkulaator.
 
 ## Tehtemärgid
 
