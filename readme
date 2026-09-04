@@ -4,15 +4,15 @@ Lihtne Pythonis tehtud kalkulaator, millega saab teha põhilisi ja natuke keerul
 
 ## Tehtemärgid
 
-| Märk | Tähendus | Näide |
-|------|----------|-------|
-| `+` | Liitmine | `5 + 3 = 8` |
-| `-` | Lahutamine | `5 - 3 = 2` |
-| `*` | Korrutamine | `5 * 3 = 15` |
-| `/` | Jagamine | `6 / 3 = 2` |
-| `**` | Astendamine | `2 ** 3 = 8` |
-| `%` | Jäägi leidmine | `10 % 3 = 1` |
-| `sqrt` | Ruutjuur | `sqrt 9 = 3` |
+| Märk   | Tähendus         | Näide         |
+|--------|------------------|---------------|
+| `+`    | Liitmine         | 5 + 3 = 8     |
+| `-`    | Lahutamine       | 5 - 3 = 2     |
+| `*`    | Korrutamine      | 5 * 3 = 15    |
+| `/`    | Jagamine         | 6 / 3 = 2     |
+| `**`   | Astendamine      | 2 ** 3 = 8    |
+| `%`    | Jäägi leidmine   | 10 % 3 = 1    |
+| `sqrt` | Ruutjuur         | sqrt 9 = 3    |
 
 ## 🚪 Programmist väljumine
 
