@@ -1,50 +1,40 @@
-import math
-
-print("🧮 Kalkulaator v2")
-print("Tehted: +, -, *, /, **, %, sqrt")
-print("Väljumiseks kirjuta q või exit.\n")
+print("Kalkulaator")
+print("Tehted: +, -, *, /")
+print("Väljumiseks kirjuta q.\n")
 
 while True:
-    esimene = input("👉 Mis on sinu esimene arv? ").strip()
+    esimene = input("Mis on sinu esimene arv? ").strip()
 
-    if esimene.lower() in ("q", "exit"):
-        print("👋 Tsau! Kalkulaator pandi kinni.")
+    if esimene.lower() == "q":
+        print("Tsau!")
         break
 
     try:
         arv1 = float(esimene)
     except ValueError:
-        print("❌ See pole arv 😭 Proovi uuesti.\n")
+        print("Palun sisesta arv.\n")
         continue
 
-    tehe = input("⚙️ Mis tehet tahad teha? (+, -, *, /, **, %, sqrt): ").strip().lower()
+    tehe = input("Mis tehet tahad teha? (+, -, *, /): ").strip()
 
-    if tehe in ("q", "exit"):
-        print("👋 Tsau! Kalkulaator pandi kinni.")
+    if tehe.lower() == "q":
+        print("Tsau!")
         break
 
-    if tehe == "sqrt":
-        if arv1 < 0:
-            print("❌ Negatiivsest arvust ei saa siin ruutjuurt võtta 😭")
-        else:
-            print("✅ Vastus:", math.sqrt(arv1))
-        print("\n🔄 Teeme järgmise arvutuse!\n")
+    if tehe not in ("+", "-", "*", "/"):
+        print("Sellist tehet ei ole.\n")
         continue
 
-    if tehe not in ("+", "-", "*", "/", "**", "%"):
-        print("❌ Sellist tehet ma ei tunne 💀\n")
-        continue
+    teine = input("Mis on sinu teine arv? ").strip()
 
-    teine = input("👉 Mis on sinu teine arv? ").strip()
-
-    if teine.lower() in ("q", "exit"):
-        print("👋 Tsau! Kalkulaator pandi kinni.")
+    if teine.lower() == "q":
+        print("Tsau!")
         break
 
     try:
         arv2 = float(teine)
     except ValueError:
-        print("❌ See pole arv 😭 Proovi uuesti.\n")
+        print("Palun sisesta arv.\n")
         continue
 
     if tehe == "+":
@@ -53,20 +43,11 @@ while True:
         vastus = arv1 - arv2
     elif tehe == "*":
         vastus = arv1 * arv2
-    elif tehe == "/":
-        if arv2 == 0:
-            print("❌ Nulliga ei saa jagada gng 💀")
-            print("\n🔄 Teeme järgmise arvutuse!\n")
-            continue
-        vastus = arv1 / arv2
-    elif tehe == "**":
-        vastus = arv1 ** arv2
     else:
         if arv2 == 0:
-            print("❌ Nulliga ei saa jääki arvutada 💀")
-            print("\n🔄 Teeme järgmise arvutuse!\n")
+            print("Nulliga ei saa jagada.\n")
             continue
-        vastus = arv1 % arv2
+        vastus = arv1 / arv2
 
-    print("✅ Vastus:", vastus)
-    print("\n🔄 Teeme järgmise arvutuse!\n")
+    print("Vastus:", vastus)
+    print()
