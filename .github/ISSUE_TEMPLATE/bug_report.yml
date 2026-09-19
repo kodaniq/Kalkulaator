@@ -1,0 +1,97 @@
+name: 🐛 Bug report
+description: Teata kalkulaatoris leitud veast
+title: "[BUG] "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Aitäh, et aitad Kalkulaatorit paremaks teha! ❤️
+        Täida allolevad väljad nii täpselt kui võimalik.
+
+  - type: dropdown
+    id: problem_type
+    attributes:
+      label: Mis tüüpi probleem tekkis?
+      options:
+        - Kalkulaator andis vale vastuse
+        - Programm andis errori
+        - Programm sulgus ootamatult
+        - Sisendi kontroll ei töötanud
+        - Muu
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: 🐛 Probleemi kirjeldus
+      description: Kirjelda lühidalt ja selgelt, mis valesti läks.
+      placeholder: Mis juhtus?
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: 🔁 Kuidas viga korrata?
+      description: Kirjuta sammud, millega probleem uuesti tekib.
+      placeholder: |
+        1. Käivitasin kalkulaatori
+        2. Sisestasin ...
+        3. Valisin ...
+        4. Juhtus ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: ✅ Oodatud tulemus
+      placeholder: Mida oleks pidanud juhtuma?
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: ❌ Tegelik tulemus
+      placeholder: Mis tegelikult juhtus?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: 💻 Operatsioonisüsteem
+      options:
+        - Windows
+        - macOS
+        - Linux
+        - Muu
+    validations:
+      required: true
+
+  - type: input
+    id: python
+    attributes:
+      label: 🐍 Pythoni versioon
+      description: Näiteks Python 3.13
+      placeholder: Python 3.x
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Enne saatmist
+      options:
+        - label: Kontrollisin, et sama probleemi kohta pole juba issue't.
+          required: true
+        - label: Olen lisanud probleemi kordamiseks piisavalt infot.
+          required: true
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: 📎 Lisainfo
+      description: Soovi korral lisa veateade, screenshot või muu kasulik info.
