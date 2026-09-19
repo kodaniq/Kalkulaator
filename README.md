@@ -4,20 +4,21 @@
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-Lihtne Pythonis kirjutatud käsurea kalkulaator, mis toetab põhilisi ja teaduslikke matemaatilisi tehteid, arvutuste ajalugu ning abikäsku.
+Lihtne Pythonis kirjutatud käsurea kalkulaator, kus matemaatilise avaldise saab sisestada otse ühele reale.
 
 ## ✨ Funktsioonid
 
+- Avaldised kujul `5 + 3`, `sqrt 9` või `ans * 10`
 - Liitmine, lahutamine, korrutamine ja jagamine
 - Astendamine ja jäägi leidmine
 - Ruutjuur ja absoluutväärtus
-- Trigonomeetria: `sin`, `cos` ja `tan` kraadides
+- Trigonomeetria kraadides: `sin`, `cos`, `tan`
 - Kümnendlogaritm (`log`)
-- `ans` eelmise vastuse kasutamiseks järgmises arvutuses
+- `ans` eelmise vastuse kasutamiseks
 - Arvutuste ajalugu
-- `help`, `history` ja `clear` käsud
+- `help`, `history` ja `clear`
 - Vigaste sisendite kontroll
-- Täisarvulised vastused kuvatakse ilma üleliigse `.0` lõputa
+- Avaldisi parsitakse ilma `eval()` kasutamata
 
 ## 📋 Nõuded
 
@@ -36,56 +37,66 @@ Mõnes süsteemis:
 python3 kalkulaator.py
 ```
 
-## 💻 Kasutamise näide
+## 💻 Kasutamine
 
 ```text
 Kalkulaator
-Tehted: +, -, *, /, **, %, sqrt, abs, sin, cos, tan, log
+Sisesta avaldis, näiteks: 5 + 3, sqrt 9 või ans * 2
 Käsud: help, history, clear
-Eelmise vastuse kasutamiseks kirjuta ans.
 
-Mis on sinu esimene arv? 5
-Mis tehet tahad teha? (+, -, *, /, **, %, sqrt, abs, sin, cos, tan, log): +
-Mis on sinu teine arv? 3
+> 5 + 3
 Vastus: 8
 
-Mis on sinu esimene arv? ans
-Mis tehet tahad teha? (+, -, *, /, **, %, sqrt, abs, sin, cos, tan, log): *
-Mis on sinu teine arv? 2
-Vastus: 16
+> ans * 10
+Vastus: 80
+
+> sqrt 144
+Vastus: 12
+
+> sin 90
+Vastus: 1
 ```
+
+Tehte osad eraldatakse tühikutega. Näiteks kirjuta `5 + 3`, mitte `5+3`.
 
 ## ➗ Tehted
 
 | Märk | Tähendus | Näide |
 | --- | --- | --- |
-| `+` | Liitmine | 5 + 3 = 8 |
-| `-` | Lahutamine | 5 - 3 = 2 |
-| `*` | Korrutamine | 5 * 3 = 15 |
-| `/` | Jagamine | 6 / 3 = 2 |
-| `**` | Astendamine | 2 ** 3 = 8 |
-| `%` | Jäägi leidmine | 10 % 3 = 1 |
-| `sqrt` | Ruutjuur | sqrt 9 = 3 |
-| `abs` | Absoluutväärtus | abs -5 = 5 |
-| `sin` | Siinus kraadides | sin 90 = 1 |
-| `cos` | Koosinus kraadides | cos 180 = -1 |
-| `tan` | Tangens kraadides | tan 45 ≈ 1 |
-| `log` | Kümnendlogaritm | log 100 = 2 |
+| `+` | Liitmine | `5 + 3` → 8 |
+| `-` | Lahutamine | `5 - 3` → 2 |
+| `*` | Korrutamine | `5 * 3` → 15 |
+| `/` | Jagamine | `6 / 3` → 2 |
+| `**` | Astendamine | `2 ** 3` → 8 |
+| `%` | Jäägi leidmine | `10 % 3` → 1 |
+| `sqrt` | Ruutjuur | `sqrt 9` → 3 |
+| `abs` | Absoluutväärtus | `abs -5` → 5 |
+| `sin` | Siinus kraadides | `sin 90` → 1 |
+| `cos` | Koosinus kraadides | `cos 180` → -1 |
+| `tan` | Tangens kraadides | `tan 45` → 1 |
+| `log` | Kümnendlogaritm | `log 100` → 2 |
 
 ## ⌨️ Käsud
 
 | Käsk | Tegevus |
 | --- | --- |
-| `help` | Näitab saadaolevaid tehteid ja käske |
+| `help` | Näitab kasutusabi |
 | `history` | Näitab selle käivituse jooksul tehtud arvutusi |
 | `clear` | Tühjendab arvutuste ajaloo |
-| `ans` | Kasutab eelmist vastust arvu asemel |
-
-`ans` töötab nii esimese kui ka teise arvu asemel. Kui eelmist vastust veel pole, annab kalkulaator veateate.
+| `ans` | Kasutab avaldises eelmist vastust |
 
 ## 🕘 Arvutuste ajalugu
 
-Ajalugu hoitakse ainult programmi töötamise ajal ja seda saab tühjendada käsuga `clear`.
+`history` näitab tehtud arvutusi:
+
+```text
+--- Arvutuste ajalugu ---
+5 + 3 = 8
+8 * 10 = 80
+sqrt 144 = 12
+```
+
+Ajalugu hoitakse ainult programmi töötamise ajal.
 
 ## 🧪 Testid
 
@@ -103,7 +114,7 @@ python -m unittest discover -s tests -v
 
 ## ⚠️ Vigade käsitlemine
 
-Kalkulaator kontrollib muu hulgas nulliga jagamist, vigaseid sisendeid, negatiivse arvu ruutjuurt, vigast logaritmi ja tundmatuid tehtemärke.
+Kalkulaator kontrollib muu hulgas nulliga jagamist, vigaseid sisendeid, negatiivse arvu ruutjuurt, vigast logaritmi ja tundmatuid avaldisi.
 
 ## 🐛 Issues ja ideed
 
