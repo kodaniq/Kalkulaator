@@ -1,0 +1,52 @@
+name: ✨ Feature request
+description: Paku välja uus funktsioon või parendus
+title: "[FEATURE] "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        On sul idee, kuidas Kalkulaatorit paremaks teha? Anna teada! 🚀
+
+  - type: dropdown
+    id: type
+    attributes:
+      label: Mis tüüpi idee see on?
+      options:
+        - Uus matemaatiline tehe
+        - Kasutajakogemuse parendus
+        - Veateadete / sisendikontrolli parendus
+        - Dokumentatsiooni parendus
+        - Muu
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: 🤔 Mis probleemi see lahendaks?
+      placeholder: Kirjelda, miks sellest funktsioonist kasu oleks.
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: 💡 Sinu idee
+      description: Kirjelda, kuidas uus funktsioon võiks töötada.
+      placeholder: Tahaksin, et kalkulaator...
+    validations:
+      required: true
+
+  - type: textarea
+    id: example
+    attributes:
+      label: 🧪 Näide
+      description: Soovi korral näita, milline kasutamine või väljund võiks välja näha.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Enne saatmist
+      options:
+        - label: Kontrollisin, et sama idee kohta pole juba issue't.
+          required: true
