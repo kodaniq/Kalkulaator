@@ -1,7 +1,8 @@
 import math
 
 UNARY_OPERATIONS = ("sqrt", "abs", "sin", "cos", "tan", "log")
-OPERATIONS = ("+", "-", "*", "/", "**", "%", *UNARY_OPERATIONS)
+BINARY_OPERATIONS = ("+", "-", "*", "/", "**", "%")
+OPERATIONS = (*BINARY_OPERATIONS, *UNARY_OPERATIONS)
 COMMANDS = ("help", "history", "clear")
 
 
@@ -57,24 +58,47 @@ def parse_number(value, ans):
         if ans is None:
             raise ValueError("eelmist vastust veel ei ole.")
         return ans
-    return float(value)
+    try:
+        return float(value)
+    except ValueError as error:
+        raise ValueError(f"'{value}' ei ole arv.") from error
+
+
+def parse_expression(expression, ans):
+    """Parsib lubatud kujul matemaatilise avaldise ilma eval()-ita."""
+    parts = expression.lower().split()
+
+    if len(parts) == 2 and parts[0] in UNARY_OPERATIONS:
+        operation, value = parts
+        number = parse_number(value, ans)
+        result = calculate(number, operation)
+        shown = f"{operation} {format_number(number)}"
+        return result, shown
+
+    if len(parts) == 3 and parts[1] in BINARY_OPERATIONS:
+        first, operation, second = parts
+        number1 = parse_number(first, ans)
+        number2 = parse_number(second, ans)
+        result = calculate(number1, operation, number2)
+        shown = (
+            f"{format_number(number1)} {operation} {format_number(number2)}"
+        )
+        return result, shown
+
+    raise ValueError(
+        "kasuta kuju '5 + 3' või 'sqrt 9'. Abi saamiseks kirjuta help."
+    )
 
 
 def show_help():
     print("\n--- Abi ---")
-    print("+     liitmine")
-    print("-     lahutamine")
-    print("*     korrutamine")
-    print("/     jagamine")
-    print("**    astendamine")
-    print("%     jäägi leidmine")
-    print("sqrt  ruutjuur")
-    print("abs   absoluutväärtus")
-    print("sin   siinus kraadides")
-    print("cos   koosinus kraadides")
-    print("tan   tangens kraadides")
-    print("log   kümnendlogaritm")
-    print("\nans kasutab eelmise arvutuse vastust.")
+    print("Sisesta avaldis ühele reale, näiteks:")
+    print("  5 + 3")
+    print("  ans * 10")
+    print("  sqrt 144")
+    print("  sin 90")
+    print("\nTehted: +, -, *, /, **, %, sqrt, abs, sin, cos, tan, log")
+    print("ans kasutab eelmise arvutuse vastust.")
     print("Käsud: help, history, clear")
 
 
@@ -102,74 +126,25 @@ def main():
     ans = None
 
     print("Kalkulaator")
-    print("Tehted: +, -, *, /, **, %, sqrt, abs, sin, cos, tan, log")
+    print("Sisesta avaldis, näiteks: 5 + 3, sqrt 9 või ans * 2")
     print("Käsud: help, history, clear")
-    print("Eelmise vastuse kasutamiseks kirjuta ans.")
-    print("sin, cos ja tan kasutavad kraade. log on kümnendlogaritm.")
 
     while True:
-        esimene = input("\nMis on sinu esimene arv? ").strip().lower()
+        expression = input("\n> ").strip().lower()
 
-        if esimene in COMMANDS:
-            handle_command(esimene, history)
+        if expression in COMMANDS:
+            handle_command(expression, history)
+            continue
+
+        if not expression:
             continue
 
         try:
-            arv1 = parse_number(esimene, ans)
-        except ValueError as error:
-            if esimene == "ans":
-                print("Error:", error)
-            else:
-                print("Error: palun sisesta arv, ans või käsk help.")
-            continue
-
-        tehe = input(
-            "Mis tehet tahad teha? "
-            "(+, -, *, /, **, %, sqrt, abs, sin, cos, tan, log): "
-        ).strip().lower()
-
-        if tehe in COMMANDS:
-            handle_command(tehe, history)
-            continue
-
-        if tehe not in OPERATIONS:
-            print("Error: sellist tehet ei ole.")
-            continue
-
-        if tehe in UNARY_OPERATIONS:
-            try:
-                vastus = calculate(arv1, tehe)
-                ans = vastus
-                formatted = format_number(vastus)
-                print("Vastus:", formatted)
-                history.append(f"{tehe} {format_number(arv1)} = {formatted}")
-            except ValueError as error:
-                print("Error:", error)
-            continue
-
-        teine = input("Mis on sinu teine arv? ").strip().lower()
-
-        if teine in COMMANDS:
-            handle_command(teine, history)
-            continue
-
-        try:
-            arv2 = parse_number(teine, ans)
-        except ValueError as error:
-            if teine == "ans":
-                print("Error:", error)
-            else:
-                print("Error: palun sisesta arv, ans või käsk help.")
-            continue
-
-        try:
-            vastus = calculate(arv1, tehe, arv2)
-            ans = vastus
-            formatted = format_number(vastus)
+            result, shown = parse_expression(expression, ans)
+            ans = result
+            formatted = format_number(result)
             print("Vastus:", formatted)
-            history.append(
-                f"{format_number(arv1)} {tehe} {format_number(arv2)} = {formatted}"
-            )
+            history.append(f"{shown} = {formatted}")
         except ValueError as error:
             print("Error:", error)
 
