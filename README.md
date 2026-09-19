@@ -13,6 +13,7 @@ Lihtne Pythonis kirjutatud käsurea kalkulaator, mis toetab põhilisi ja teadusl
 - Ruutjuur ja absoluutväärtus
 - Trigonomeetria: `sin`, `cos` ja `tan` kraadides
 - Kümnendlogaritm (`log`)
+- `ans` eelmise vastuse kasutamiseks järgmises arvutuses
 - Arvutuste ajalugu
 - `help`, `history` ja `clear` käsud
 - Vigaste sisendite kontroll
@@ -41,11 +42,17 @@ python3 kalkulaator.py
 Kalkulaator
 Tehted: +, -, *, /, **, %, sqrt, abs, sin, cos, tan, log
 Käsud: help, history, clear
+Eelmise vastuse kasutamiseks kirjuta ans.
 
 Mis on sinu esimene arv? 5
 Mis tehet tahad teha? (+, -, *, /, **, %, sqrt, abs, sin, cos, tan, log): +
 Mis on sinu teine arv? 3
 Vastus: 8
+
+Mis on sinu esimene arv? ans
+Mis tehet tahad teha? (+, -, *, /, **, %, sqrt, abs, sin, cos, tan, log): *
+Mis on sinu teine arv? 2
+Vastus: 16
 ```
 
 ## ➗ Tehted
@@ -72,19 +79,11 @@ Vastus: 8
 | `help` | Näitab saadaolevaid tehteid ja käske |
 | `history` | Näitab selle käivituse jooksul tehtud arvutusi |
 | `clear` | Tühjendab arvutuste ajaloo |
+| `ans` | Kasutab eelmist vastust arvu asemel |
 
-Käske saab sisestada seal, kus kalkulaator küsib arvu või tehet.
+`ans` töötab nii esimese kui ka teise arvu asemel. Kui eelmist vastust veel pole, annab kalkulaator veateate.
 
 ## 🕘 Arvutuste ajalugu
-
-Näiteks:
-
-```text
---- Arvutuste ajalugu ---
-5 + 3 = 8
-sin 90 = 1
-100 log = 2
-```
 
 Ajalugu hoitakse ainult programmi töötamise ajal ja seda saab tühjendada käsuga `clear`.
 
