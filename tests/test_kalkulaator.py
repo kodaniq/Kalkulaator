@@ -1,59 +1,48 @@
-import subprocess
-import sys
 import unittest
 
-
-def run_calculator(user_input):
-    result = subprocess.run(
-        [sys.executable, "kalkulaator.py"],
-        input=user_input,
-        text=True,
-        capture_output=True,
-        check=True,
-    )
-    return result.stdout
+from kalkulaator import calculate
 
 
 class CalculatorTests(unittest.TestCase):
     def test_addition(self):
-        output = run_calculator("5\n+\n3\nq\n")
-        self.assertIn("Vastus: 8.0", output)
+        self.assertEqual(calculate(5, "+", 3), 8)
 
     def test_subtraction(self):
-        output = run_calculator("5\n-\n3\nq\n")
-        self.assertIn("Vastus: 2.0", output)
+        self.assertEqual(calculate(5, "-", 3), 2)
 
     def test_multiplication(self):
-        output = run_calculator("5\n*\n3\nq\n")
-        self.assertIn("Vastus: 15.0", output)
+        self.assertEqual(calculate(5, "*", 3), 15)
 
     def test_division(self):
-        output = run_calculator("6\n/\n3\nq\n")
-        self.assertIn("Vastus: 2.0", output)
+        self.assertEqual(calculate(6, "/", 3), 2)
 
     def test_power(self):
-        output = run_calculator("2\n**\n3\nq\n")
-        self.assertIn("Vastus: 8.0", output)
+        self.assertEqual(calculate(2, "**", 3), 8)
 
     def test_modulo(self):
-        output = run_calculator("10\n%\n3\nq\n")
-        self.assertIn("Vastus: 1.0", output)
+        self.assertEqual(calculate(10, "%", 3), 1)
 
     def test_square_root(self):
-        output = run_calculator("9\nsqrt\nq\n")
-        self.assertIn("Vastus: 3.0", output)
+        self.assertEqual(calculate(9, "sqrt"), 3)
+
+    def test_decimal_numbers(self):
+        self.assertEqual(calculate(2.5, "+", 1.5), 4)
 
     def test_division_by_zero(self):
-        output = run_calculator("5\n/\n0\nq\n")
-        self.assertIn("Error: nulliga ei saa jagada.", output)
+        with self.assertRaisesRegex(ValueError, "nulliga ei saa jagada"):
+            calculate(5, "/", 0)
+
+    def test_modulo_by_zero(self):
+        with self.assertRaisesRegex(ValueError, "nulliga ei saa jääki arvutada"):
+            calculate(5, "%", 0)
 
     def test_negative_square_root(self):
-        output = run_calculator("-9\nsqrt\nq\n")
-        self.assertIn("Error: negatiivsest arvust ei saa ruutjuurt võtta.", output)
+        with self.assertRaisesRegex(ValueError, "negatiivsest arvust"):
+            calculate(-9, "sqrt")
 
-    def test_invalid_number(self):
-        output = run_calculator("tere\nq\n")
-        self.assertIn("Error: palun sisesta arv.", output)
+    def test_unknown_operator(self):
+        with self.assertRaisesRegex(ValueError, "sellist tehet ei ole"):
+            calculate(5, "banana", 3)
 
 
 if __name__ == "__main__":
