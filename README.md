@@ -4,26 +4,24 @@
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-Lihtne Pythonis kirjutatud käsurea kalkulaator, kus matemaatilise avaldise saab sisestada otse ühele reale.
+Pythonis kirjutatud käsurea kalkulaator, mis toetab mitme tehtega avaldisi, sulge, teaduslikke funktsioone ja arvutuste ajalugu.
 
 ## ✨ Funktsioonid
 
-- Avaldised kujul `5 + 3`, `sqrt 9` või `ans * 10`
-- Liitmine, lahutamine, korrutamine ja jagamine
-- Astendamine ja jäägi leidmine
-- Ruutjuur ja absoluutväärtus
-- Trigonomeetria kraadides: `sin`, `cos`, `tan`
-- Kümnendlogaritm (`log`)
+- Mitu tehet ühes avaldises
+- Õige tehete järjekord
+- Sulud
+- Liitmine, lahutamine, korrutamine, jagamine, astendamine ja jääk
+- `sqrt`, `abs`, `sin`, `cos`, `tan` ja `log`
 - `ans` eelmise vastuse kasutamiseks
-- Arvutuste ajalugu
 - `help`, `history` ja `clear`
 - Vigaste sisendite kontroll
-- Avaldisi parsitakse ilma `eval()` kasutamata
+- Turvaline AST-põhine parser ilma `eval()`-ita
+- Väliseid teeke pole vaja
 
 ## 📋 Nõuded
 
 - Python 3.10 või uuem
-- Väliseid teeke pole vaja
 
 ## ▶️ Käivitamine
 
@@ -41,27 +39,30 @@ python3 kalkulaator.py
 
 ```text
 Kalkulaator
-Sisesta avaldis, näiteks: 5 + 3, sqrt 9 või ans * 2
+Sisesta avaldis, näiteks: (5 + 3) * 2 või sin(30) + cos(60)
 Käsud: help, history, clear
 
-> 5 + 3
-Vastus: 8
+> 5 + 3 * 2
+Vastus: 11
 
-> ans * 10
-Vastus: 80
+> (5 + 3) * 2
+Vastus: 16
 
-> sqrt 144
+> 2 ** 3 + 4
 Vastus: 12
 
-> sin 90
+> ans / 2 + 7
+Vastus: 13
+
+> sin(30) + cos(60)
 Vastus: 1
 ```
 
-Tehte osad eraldatakse tühikutega. Näiteks kirjuta `5 + 3`, mitte `5+3`.
+Tühikud pole enam kohustuslikud: nii `5+3` kui ka `5 + 3` töötavad.
 
-## ➗ Tehted
+## ➗ Tehted ja funktsioonid
 
-| Märk | Tähendus | Näide |
+| Süntaks | Tähendus | Näide |
 | --- | --- | --- |
 | `+` | Liitmine | `5 + 3` → 8 |
 | `-` | Lahutamine | `5 - 3` → 2 |
@@ -69,12 +70,14 @@ Tehte osad eraldatakse tühikutega. Näiteks kirjuta `5 + 3`, mitte `5+3`.
 | `/` | Jagamine | `6 / 3` → 2 |
 | `**` | Astendamine | `2 ** 3` → 8 |
 | `%` | Jäägi leidmine | `10 % 3` → 1 |
-| `sqrt` | Ruutjuur | `sqrt 9` → 3 |
-| `abs` | Absoluutväärtus | `abs -5` → 5 |
-| `sin` | Siinus kraadides | `sin 90` → 1 |
-| `cos` | Koosinus kraadides | `cos 180` → -1 |
-| `tan` | Tangens kraadides | `tan 45` → 1 |
-| `log` | Kümnendlogaritm | `log 100` → 2 |
+| `sqrt(x)` | Ruutjuur | `sqrt(9)` → 3 |
+| `abs(x)` | Absoluutväärtus | `abs(-5)` → 5 |
+| `sin(x)` | Siinus kraadides | `sin(90)` → 1 |
+| `cos(x)` | Koosinus kraadides | `cos(180)` → -1 |
+| `tan(x)` | Tangens kraadides | `tan(45)` → 1 |
+| `log(x)` | Kümnendlogaritm | `log(100)` → 2 |
+
+Lihtsad funktsioonid töötavad ka ilma sulgudeta, näiteks `sqrt 144`.
 
 ## ⌨️ Käsud
 
@@ -87,20 +90,15 @@ Tehte osad eraldatakse tühikutega. Näiteks kirjuta `5 + 3`, mitte `5+3`.
 
 ## 🕘 Arvutuste ajalugu
 
-`history` näitab tehtud arvutusi:
+`history` näitab selle käivituse jooksul tehtud avaldisi ja vastuseid. Ajalugu saab tühjendada käsuga `clear`.
 
-```text
---- Arvutuste ajalugu ---
-5 + 3 = 8
-8 * 10 = 80
-sqrt 144 = 12
-```
+## 🔐 Avaldiste turvalisus
 
-Ajalugu hoitakse ainult programmi töötamise ajal.
+Kalkulaator ei kasuta sisendi arvutamiseks `eval()`-i. Avaldis parsitakse Pythoni AST abil ning lubatud on ainult numbrid, kalkulaatori matemaatilised tehted, toetatud funktsioonid ja `ans`.
 
 ## 🧪 Testid
 
-Projektis on unit-testid kalkulaatori arvutusloogika jaoks. Neid saab lokaalselt käivitada:
+Projektis on unit-testid kalkulaatori arvutusloogika jaoks:
 
 ```bash
 python -m unittest discover -s tests -v
@@ -114,13 +112,11 @@ python -m unittest discover -s tests -v
 
 ## ⚠️ Vigade käsitlemine
 
-Kalkulaator kontrollib muu hulgas nulliga jagamist, vigaseid sisendeid, negatiivse arvu ruutjuurt, vigast logaritmi ja tundmatuid avaldisi.
+Kalkulaator kontrollib muu hulgas nulliga jagamist, vigaseid avaldisi, negatiivse arvu ruutjuurt, vigast logaritmi ning mittetoetatud süntaksit.
 
 ## 🐛 Issues ja ideed
 
 Kui leiad vea või sul on idee, kuidas kalkulaatorit paremaks teha, [ava uus issue](https://github.com/kodaniq/Kalkulaator/issues/new/choose).
-
-Saad valida interaktiivse **Bug report** või **Feature request** vormi.
 
 ## 🤝 Contributing
 
