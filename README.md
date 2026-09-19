@@ -1,5 +1,9 @@
 # 🧮 Kalkulaator
 
+[![Tests](https://github.com/kodaniq/Kalkulaator/actions/workflows/tests.yml/badge.svg)](https://github.com/kodaniq/Kalkulaator/actions/workflows/tests.yml)
+[![Python](https://img.shields.io/badge/Python-3.10%2B-blue)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 Lihtne Pythonis kirjutatud käsurea kalkulaator, mis toetab põhilisi matemaatilisi tehteid, ruutjuurt ja vigaste sisendite kontrollimist.
 
 ## ✨ Funktsioonid
@@ -13,7 +17,7 @@ Lihtne Pythonis kirjutatud käsurea kalkulaator, mis toetab põhilisi matemaatil
 
 ## 📋 Nõuded
 
-- Python 3
+- Python 3.10 või uuem
 - Väliseid teeke pole vaja
 
 Kalkulaator kasutab ainult Pythoni standardteeki `math`.
@@ -57,6 +61,16 @@ Vastus: 8.0
 | `%` | Jäägi leidmine | 10 % 3 = 1 |
 | `sqrt` | Ruutjuur | sqrt 9 = 3 |
 
+## 🧪 Testid
+
+Testide käivitamiseks:
+
+```bash
+python -m unittest discover -s tests -v
+```
+
+GitHub Actions käivitab testid automaatselt iga pushi ja pull requesti puhul Python 3.10–3.13 versioonidega.
+
 ## ⚠️ Vigade käsitlemine
 
 Kalkulaator kontrollib vigaseid sisendeid, näiteks:
@@ -71,16 +85,16 @@ Kalkulaator kontrollib vigaseid sisendeid, näiteks:
 
 Programmist saab väljuda, sisestades `q` või `exit`.
 
-## 🐛 Issues / vigadest teatamine
+## 🐛 Issues ja ideed
 
-Kui leiad vea või sul on idee, kuidas kalkulaatorit paremaks teha, [ava uus issue](https://github.com/kodaniq/Kalkulaator/issues/new).
+Kui leiad vea või sul on idee, kuidas kalkulaatorit paremaks teha, [ava uus issue](https://github.com/kodaniq/Kalkulaator/issues/new/choose).
 
-Palun kirjelda võimalusel:
-
-- mida tegid;
-- mida ootasid;
-- mis tegelikult juhtus.
+Saad valida interaktiivse **Bug report** või **Feature request** vormi.
 
 ## 🤝 Contributing
 
-Parandused ja uued ideed on teretulnud. Võid avada issue või saata pull requesti.
+Parandused ja uued ideed on teretulnud. Täpsemad juhised leiad failist [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## 📄 Litsents
+
+Projekt on avaldatud [MIT litsentsi](LICENSE) all.
