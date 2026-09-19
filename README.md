@@ -1,35 +1,35 @@
 # 🧮 Kalkulaator
 
-[![Tests](https://github.com/kodaniq/Kalkulaator/actions/workflows/tests.yml/badge.svg)](https://github.com/kodaniq/Kalkulaator/actions/workflows/tests.yml)
 [![CodeQL](https://github.com/kodaniq/Kalkulaator/actions/workflows/codeql.yml/badge.svg)](https://github.com/kodaniq/Kalkulaator/actions/workflows/codeql.yml)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-Lihtne Pythonis kirjutatud käsurea kalkulaator, mis toetab põhilisi ja teaduslikke matemaatilisi tehteid ning vigaste sisendite kontrollimist.
+Lihtne Pythonis kirjutatud käsurea kalkulaator, mis toetab põhilisi ja teaduslikke matemaatilisi tehteid, arvutuste ajalugu ning abikäsku.
 
 ## ✨ Funktsioonid
 
 - Liitmine, lahutamine, korrutamine ja jagamine
-- Astendamine
-- Jäägi leidmine
-- Ruutjuure arvutamine
+- Astendamine ja jäägi leidmine
+- Ruutjuur ja absoluutväärtus
+- Trigonomeetria: `sin`, `cos` ja `tan` kraadides
+- Kümnendlogaritm (`log`)
+- Arvutuste ajalugu
+- `help`, `history` ja `clear` käsud
 - Vigaste sisendite kontroll
-- Programmist väljumine käsuga `q` või `exit`
+- Täisarvulised vastused kuvatakse ilma üleliigse `.0` lõputa
 
 ## 📋 Nõuded
 
 - Python 3.10 või uuem
-- Kalkulaatori kasutamiseks pole väliseid teeke vaja
+- Väliseid teeke pole vaja
 
 ## ▶️ Käivitamine
-
-Klooni või laadi projekt alla ning käivita terminalis:
 
 ```bash
 python kalkulaator.py
 ```
 
-Mõnes süsteemis võib olla vaja kasutada:
+Mõnes süsteemis:
 
 ```bash
 python3 kalkulaator.py
@@ -40,15 +40,15 @@ python3 kalkulaator.py
 ```text
 Kalkulaator
 Tehted: +, -, *, /, **, %, sqrt, abs, sin, cos, tan, log
-Väljumiseks kirjuta q või exit.
+Käsud: help, history, clear
 
 Mis on sinu esimene arv? 5
-Mis tehet tahad teha? (+, -, *, /, **, %, sqrt): +
+Mis tehet tahad teha? (+, -, *, /, **, %, sqrt, abs, sin, cos, tan, log): +
 Mis on sinu teine arv? 3
-Vastus: 8.0
+Vastus: 8
 ```
 
-## ➗ Tehtemärgid
+## ➗ Tehted
 
 | Märk | Tähendus | Näide |
 | --- | --- | --- |
@@ -58,23 +58,42 @@ Vastus: 8.0
 | `/` | Jagamine | 6 / 3 = 2 |
 | `**` | Astendamine | 2 ** 3 = 8 |
 | `%` | Jäägi leidmine | 10 % 3 = 1 |
-| `sqrt` | Ruutjuur | sqrt 9 = 3 |\n| `abs` | Absoluutväärtus | abs -5 = 5 |\n| `sin` | Siinus kraadides | sin 90 = 1 |\n| `cos` | Koosinus kraadides | cos 180 = -1 |\n| `tan` | Tangens kraadides | tan 45 ≈ 1 |\n| `log` | Kümnendlogaritm | log 100 = 2 |
+| `sqrt` | Ruutjuur | sqrt 9 = 3 |
+| `abs` | Absoluutväärtus | abs -5 = 5 |
+| `sin` | Siinus kraadides | sin 90 = 1 |
+| `cos` | Koosinus kraadides | cos 180 = -1 |
+| `tan` | Tangens kraadides | tan 45 ≈ 1 |
+| `log` | Kümnendlogaritm | log 100 = 2 |
 
-## 🧪 Testid ja koodi kvaliteet
+## ⌨️ Käsud
 
-Projektis on automaatsed unit-testid ning GitHub Actions kontrollib iga pushi ja pull requesti puhul:
+| Käsk | Tegevus |
+| --- | --- |
+| `help` | Näitab saadaolevaid tehteid ja käske |
+| `history` | Näitab selle käivituse jooksul tehtud arvutusi |
+| `clear` | Tühjendab arvutuste ajaloo |
 
-- teste Python 3.10–3.13 versioonidega;
-- test coverage'it;
-- koodi kvaliteeti Ruffiga.
+Käske saab sisestada seal, kus kalkulaator küsib arvu või tehet.
 
-Lokaalselt saad kontrollid käivitada näiteks nii:
+## 🕘 Arvutuste ajalugu
+
+Näiteks:
+
+```text
+--- Arvutuste ajalugu ---
+5 + 3 = 8
+sin 90 = 1
+100 log = 2
+```
+
+Ajalugu hoitakse ainult programmi töötamise ajal ja seda saab tühjendada käsuga `clear`.
+
+## 🧪 Testid
+
+Projektis on unit-testid kalkulaatori arvutusloogika jaoks. Neid saab lokaalselt käivitada:
 
 ```bash
-python -m pip install ruff coverage
-ruff check .
-coverage run -m unittest discover -s tests -v
-coverage report
+python -m unittest discover -s tests -v
 ```
 
 ## 🔒 Turvalisus ja automaatika
@@ -85,23 +104,13 @@ coverage report
 
 ## ⚠️ Vigade käsitlemine
 
-Kalkulaator kontrollib vigaseid sisendeid, näiteks:
-
-- Teksti sisestamine arvu asemel
-- Nulliga jagamine
-- Nulliga jäägi arvutamine
-- Negatiivse arvu ruutjuure arvutamine
-- Tundmatu tehtemärgi sisestamine
-
-## 🚪 Programmist väljumine
-
-Programmist saab väljuda, sisestades `q` või `exit`.
+Kalkulaator kontrollib muu hulgas nulliga jagamist, vigaseid sisendeid, negatiivse arvu ruutjuurt, vigast logaritmi ja tundmatuid tehtemärke.
 
 ## 🐛 Issues ja ideed
 
 Kui leiad vea või sul on idee, kuidas kalkulaatorit paremaks teha, [ava uus issue](https://github.com/kodaniq/Kalkulaator/issues/new/choose).
 
-Saad valida interaktiivse **Bug report** või **Feature request** vormi. Tühjad issue'd on välja lülitatud, et vajalik info saaks kohe kaasa.
+Saad valida interaktiivse **Bug report** või **Feature request** vormi.
 
 ## 🤝 Contributing
 
