@@ -1,13 +1,24 @@
+import ast
 import math
+import operator
 
-UNARY_OPERATIONS = ("sqrt", "abs", "sin", "cos", "tan", "log")
-BINARY_OPERATIONS = ("+", "-", "*", "/", "**", "%")
-OPERATIONS = (*BINARY_OPERATIONS, *UNARY_OPERATIONS)
 COMMANDS = ("help", "history", "clear")
+BINARY_OPERATORS = {
+    ast.Add: operator.add,
+    ast.Sub: operator.sub,
+    ast.Mult: operator.mul,
+    ast.Div: operator.truediv,
+    ast.Pow: operator.pow,
+    ast.Mod: operator.mod,
+}
+UNARY_OPERATORS = {
+    ast.UAdd: operator.pos,
+    ast.USub: operator.neg,
+}
 
 
 def calculate(arv1, tehe, arv2=None):
-    """Arvutab tulemuse antud arvude ja tehtemärgi põhjal."""
+    """Arvutab ühe toetatud tehte."""
     if tehe == "sqrt":
         if arv1 < 0:
             raise ValueError("negatiivsest arvust ei saa ruutjuurt võtta.")
@@ -52,52 +63,85 @@ def format_number(number):
     return f"{number:.10g}" if isinstance(number, float) else str(number)
 
 
-def parse_number(value, ans):
-    """Teisendab sisendi arvuks või kasutab eelmist vastust."""
-    if value == "ans":
-        if ans is None:
-            raise ValueError("eelmist vastust veel ei ole.")
-        return ans
-    try:
-        return float(value)
-    except ValueError as error:
-        raise ValueError(f"'{value}' ei ole arv.") from error
+def evaluate_node(node, ans):
+    """Arvutab ainult kalkulaatori poolt lubatud AST-sõlmed."""
+    if isinstance(node, ast.Constant):
+        if isinstance(node.value, bool) or not isinstance(node.value, (int, float)):
+            raise ValueError("lubatud on ainult arvud.")
+        return node.value
+
+    if isinstance(node, ast.Name):
+        if node.id == "ans":
+            if ans is None:
+                raise ValueError("eelmist vastust veel ei ole.")
+            return ans
+        raise ValueError(f"tundmatu nimi: {node.id}.")
+
+    if isinstance(node, ast.BinOp) and type(node.op) in BINARY_OPERATORS:
+        left = evaluate_node(node.left, ans)
+        right = evaluate_node(node.right, ans)
+        if isinstance(node.op, (ast.Div, ast.Mod)) and right == 0:
+            raise ValueError("nulliga ei saa jagada ega jääki arvutada.")
+        try:
+            return BINARY_OPERATORS[type(node.op)](left, right)
+        except (OverflowError, ZeroDivisionError) as error:
+            raise ValueError("seda avaldist ei saa arvutada.") from error
+
+    if isinstance(node, ast.UnaryOp) and type(node.op) in UNARY_OPERATORS:
+        return UNARY_OPERATORS[type(node.op)](evaluate_node(node.operand, ans))
+
+    if isinstance(node, ast.Call):
+        if (
+            not isinstance(node.func, ast.Name)
+            or node.func.id not in ("sqrt", "abs", "sin", "cos", "tan", "log")
+            or len(node.args) != 1
+            or node.keywords
+        ):
+            raise ValueError("tundmatu funktsioon.")
+        return calculate(evaluate_node(node.args[0], ans), node.func.id)
+
+    raise ValueError("avaldis sisaldab mittetoetatud süntaksit.")
+
+
+def normalize_expression(expression):
+    """Lubab funktsioone kirjutada ka kujul 'sqrt 9'."""
+    parts = expression.strip().split(maxsplit=1)
+    if len(parts) == 2 and parts[0] in ("sqrt", "abs", "sin", "cos", "tan", "log"):
+        return f"{parts[0]}({parts[1]})"
+    return expression
 
 
 def parse_expression(expression, ans):
-    """Parsib lubatud kujul matemaatilise avaldise ilma eval()-ita."""
-    parts = expression.lower().split()
+    """Parsib ja arvutab avaldise turvaliselt ilma eval()-ita."""
+    normalized = normalize_expression(expression.lower())
+    try:
+        tree = ast.parse(normalized, mode="eval")
+    except SyntaxError as error:
+        raise ValueError("vigane avaldis. Abi saamiseks kirjuta help.") from error
 
-    if len(parts) == 2 and parts[0] in UNARY_OPERATIONS:
-        operation, value = parts
-        number = parse_number(value, ans)
-        result = calculate(number, operation)
-        shown = f"{operation} {format_number(number)}"
-        return result, shown
+    try:
+        result = evaluate_node(tree.body, ans)
+    except (ValueError, TypeError) as error:
+        raise ValueError(str(error)) from error
 
-    if len(parts) == 3 and parts[1] in BINARY_OPERATIONS:
-        first, operation, second = parts
-        number1 = parse_number(first, ans)
-        number2 = parse_number(second, ans)
-        result = calculate(number1, operation, number2)
-        shown = (
-            f"{format_number(number1)} {operation} {format_number(number2)}"
-        )
-        return result, shown
+    if not isinstance(result, (int, float)) or isinstance(result, bool):
+        raise ValueError("tulemus peab olema arv.")
 
-    raise ValueError(
-        "kasuta kuju '5 + 3' või 'sqrt 9'. Abi saamiseks kirjuta help."
-    )
+    return result
 
 
 def show_help():
     print("\n--- Abi ---")
-    print("Sisesta avaldis ühele reale, näiteks:")
-    print("  5 + 3")
-    print("  ans * 10")
+    print("Näited:")
+    print("  5 + 3 * 2")
+    print("  (5 + 3) * 2")
+    print("  2 ** 3 + 4")
+    print("  ans / 2 + 7")
     print("  sqrt 144")
-    print("  sin 90")
-    print("\nTehted: +, -, *, /, **, %, sqrt, abs, sin, cos, tan, log")
+    print("  sin(30) + cos(60)")
+    print("\nTehted: +, -, *, /, **, %")
+    print("Funktsioonid: sqrt, abs, sin, cos, tan, log")
+    print("sin, cos ja tan kasutavad kraade.")
     print("ans kasutab eelmise arvutuse vastust.")
     print("Käsud: help, history, clear")
 
@@ -126,25 +170,25 @@ def main():
     ans = None
 
     print("Kalkulaator")
-    print("Sisesta avaldis, näiteks: 5 + 3, sqrt 9 või ans * 2")
+    print("Sisesta avaldis, näiteks: (5 + 3) * 2 või sin(30) + cos(60)")
     print("Käsud: help, history, clear")
 
     while True:
-        expression = input("\n> ").strip().lower()
+        expression = input("\n> ").strip()
 
-        if expression in COMMANDS:
-            handle_command(expression, history)
+        if expression.lower() in COMMANDS:
+            handle_command(expression.lower(), history)
             continue
 
         if not expression:
             continue
 
         try:
-            result, shown = parse_expression(expression, ans)
+            result = parse_expression(expression, ans)
             ans = result
             formatted = format_number(result)
             print("Vastus:", formatted)
-            history.append(f"{shown} = {formatted}")
+            history.append(f"{expression} = {formatted}")
         except ValueError as error:
             print("Error:", error)
 
