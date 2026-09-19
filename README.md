@@ -1,6 +1,6 @@
-Kalkulaator
+# Kalkulaator
 
-Pythoni põhine  kalkulaator.
+Pythoni põhine kalkulaator.
 
 ## Tehtemärgid
 
@@ -36,3 +36,10 @@ Näiteks:
 - Negatiivse arvu ruutjuure arvutamine
 - Tundmatu tehtemärgi sisestamine
 
+## 🐛 Issues / vigadest teatamine
+
+Kui leiad vea või sul on idee, kuidas kalkulaatorit paremaks teha, ava GitHubis uus issue:
+
+[Report an issue](https://github.com/kodaniq/Kalkulaator/issues/new)
+
+Palun kirjelda võimalusel, mida tegid, mida ootasid ja mis tegelikult juhtus.
