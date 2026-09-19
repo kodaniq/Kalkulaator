@@ -51,6 +51,15 @@ def format_number(number):
     return f"{number:.10g}" if isinstance(number, float) else str(number)
 
 
+def parse_number(value, ans):
+    """Teisendab sisendi arvuks või kasutab eelmist vastust."""
+    if value == "ans":
+        if ans is None:
+            raise ValueError("eelmist vastust veel ei ole.")
+        return ans
+    return float(value)
+
+
 def show_help():
     print("\n--- Abi ---")
     print("+     liitmine")
@@ -65,7 +74,8 @@ def show_help():
     print("cos   koosinus kraadides")
     print("tan   tangens kraadides")
     print("log   kümnendlogaritm")
-    print("\nKäsud: help, history, clear")
+    print("\nans kasutab eelmise arvutuse vastust.")
+    print("Käsud: help, history, clear")
 
 
 def show_history(history):
@@ -89,10 +99,12 @@ def handle_command(command, history):
 
 def main():
     history = []
+    ans = None
 
     print("Kalkulaator")
     print("Tehted: +, -, *, /, **, %, sqrt, abs, sin, cos, tan, log")
     print("Käsud: help, history, clear")
+    print("Eelmise vastuse kasutamiseks kirjuta ans.")
     print("sin, cos ja tan kasutavad kraade. log on kümnendlogaritm.")
 
     while True:
@@ -103,9 +115,12 @@ def main():
             continue
 
         try:
-            arv1 = float(esimene)
-        except ValueError:
-            print("Error: palun sisesta arv või käsk help.")
+            arv1 = parse_number(esimene, ans)
+        except ValueError as error:
+            if esimene == "ans":
+                print("Error:", error)
+            else:
+                print("Error: palun sisesta arv, ans või käsk help.")
             continue
 
         tehe = input(
@@ -124,6 +139,7 @@ def main():
         if tehe in UNARY_OPERATIONS:
             try:
                 vastus = calculate(arv1, tehe)
+                ans = vastus
                 formatted = format_number(vastus)
                 print("Vastus:", formatted)
                 history.append(f"{tehe} {format_number(arv1)} = {formatted}")
@@ -138,13 +154,17 @@ def main():
             continue
 
         try:
-            arv2 = float(teine)
-        except ValueError:
-            print("Error: palun sisesta arv või käsk help.")
+            arv2 = parse_number(teine, ans)
+        except ValueError as error:
+            if teine == "ans":
+                print("Error:", error)
+            else:
+                print("Error: palun sisesta arv, ans või käsk help.")
             continue
 
         try:
             vastus = calculate(arv1, tehe, arv2)
+            ans = vastus
             formatted = format_number(vastus)
             print("Vastus:", formatted)
             history.append(
