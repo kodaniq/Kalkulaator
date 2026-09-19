@@ -25,6 +25,21 @@ class CalculatorTests(unittest.TestCase):
     def test_square_root(self):
         self.assertEqual(calculate(9, "sqrt"), 3)
 
+    def test_absolute_value(self):
+        self.assertEqual(calculate(-12, "abs"), 12)
+
+    def test_sine_uses_degrees(self):
+        self.assertAlmostEqual(calculate(90, "sin"), 1.0)
+
+    def test_cosine_uses_degrees(self):
+        self.assertAlmostEqual(calculate(180, "cos"), -1.0)
+
+    def test_tangent_uses_degrees(self):
+        self.assertAlmostEqual(calculate(45, "tan"), 1.0)
+
+    def test_base_10_logarithm(self):
+        self.assertEqual(calculate(100, "log"), 2.0)
+
     def test_decimal_numbers(self):
         self.assertEqual(calculate(2.5, "+", 1.5), 4)
 
@@ -39,6 +54,10 @@ class CalculatorTests(unittest.TestCase):
     def test_negative_square_root(self):
         with self.assertRaisesRegex(ValueError, "negatiivsest arvust"):
             calculate(-9, "sqrt")
+
+    def test_invalid_logarithm(self):
+        with self.assertRaisesRegex(ValueError, "ainult positiivsest"):
+            calculate(0, "log")
 
     def test_unknown_operator(self):
         with self.assertRaisesRegex(ValueError, "sellist tehet ei ole"):
