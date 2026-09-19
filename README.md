@@ -5,7 +5,7 @@
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-Lihtne Pythonis kirjutatud käsurea kalkulaator, mis toetab põhilisi matemaatilisi tehteid, ruutjuurt ja vigaste sisendite kontrollimist.
+Lihtne Pythonis kirjutatud käsurea kalkulaator, mis toetab põhilisi ja teaduslikke matemaatilisi tehteid ning vigaste sisendite kontrollimist.
 
 ## ✨ Funktsioonid
 
@@ -39,7 +39,7 @@ python3 kalkulaator.py
 
 ```text
 Kalkulaator
-Tehted: +, -, *, /, **, %, sqrt
+Tehted: +, -, *, /, **, %, sqrt, abs, sin, cos, tan, log
 Väljumiseks kirjuta q või exit.
 
 Mis on sinu esimene arv? 5
@@ -58,7 +58,7 @@ Vastus: 8.0
 | `/` | Jagamine | 6 / 3 = 2 |
 | `**` | Astendamine | 2 ** 3 = 8 |
 | `%` | Jäägi leidmine | 10 % 3 = 1 |
-| `sqrt` | Ruutjuur | sqrt 9 = 3 |
+| `sqrt` | Ruutjuur | sqrt 9 = 3 |\n| `abs` | Absoluutväärtus | abs -5 = 5 |\n| `sin` | Siinus kraadides | sin 90 = 1 |\n| `cos` | Koosinus kraadides | cos 180 = -1 |\n| `tan` | Tangens kraadides | tan 45 ≈ 1 |\n| `log` | Kümnendlogaritm | log 100 = 2 |
 
 ## 🧪 Testid ja koodi kvaliteet
 
