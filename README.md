@@ -1,34 +1,65 @@
-# Kalkulaator
+# 🧮 Kalkulaator
 
-Pythoni põhine kalkulaator.
+Lihtne Pythonis kirjutatud käsurea kalkulaator, mis toetab põhilisi matemaatilisi tehteid, ruutjuurt ja vigaste sisendite kontrollimist.
 
-## Tehtemärgid
+## ✨ Funktsioonid
 
-| Märk   | Tähendus         | Näide         |
-|--------|------------------|---------------|
-| `+`    | Liitmine         | 5 + 3 = 8     |
-| `-`    | Lahutamine       | 5 - 3 = 2     |
-| `*`    | Korrutamine      | 5 * 3 = 15    |
-| `/`    | Jagamine         | 6 / 3 = 2     |
-| `**`   | Astendamine      | 2 ** 3 = 8    |
-| `%`    | Jäägi leidmine   | 10 % 3 = 1    |
-| `sqrt` | Ruutjuur         | sqrt 9 = 3    |
+- Liitmine, lahutamine, korrutamine ja jagamine
+- Astendamine
+- Jäägi leidmine
+- Ruutjuure arvutamine
+- Vigaste sisendite kontroll
+- Programmist väljumine käsuga `q` või `exit`
 
-## 🚪 Programmist väljumine
+## 📋 Nõuded
 
-Programmist väljumiseks kirjuta:
+- Python 3
+- Väliseid teeke pole vaja
 
-`q`
+Kalkulaator kasutab ainult Pythoni standardteeki `math`.
 
-või
+## ▶️ Käivitamine
 
-`exit`
+Klooni või laadi projekt alla ning käivita terminalis:
 
-## Error handling
+```bash
+python kalkulaator.py
+```
 
-Kalkulaator kontrollib ka vigaseid sisendeid.
+Mõnes süsteemis võib olla vaja kasutada:
 
-Näiteks:
+```bash
+python3 kalkulaator.py
+```
+
+## 💻 Kasutamise näide
+
+```text
+Kalkulaator
+Tehted: +, -, *, /, **, %, sqrt
+Väljumiseks kirjuta q või exit.
+
+Mis on sinu esimene arv? 5
+Mis tehet tahad teha? (+, -, *, /, **, %, sqrt): +
+Mis on sinu teine arv? 3
+Vastus: 8.0
+```
+
+## ➗ Tehtemärgid
+
+| Märk | Tähendus | Näide |
+| --- | --- | --- |
+| `+` | Liitmine | 5 + 3 = 8 |
+| `-` | Lahutamine | 5 - 3 = 2 |
+| `*` | Korrutamine | 5 * 3 = 15 |
+| `/` | Jagamine | 6 / 3 = 2 |
+| `**` | Astendamine | 2 ** 3 = 8 |
+| `%` | Jäägi leidmine | 10 % 3 = 1 |
+| `sqrt` | Ruutjuur | sqrt 9 = 3 |
+
+## ⚠️ Vigade käsitlemine
+
+Kalkulaator kontrollib vigaseid sisendeid, näiteks:
 
 - Teksti sisestamine arvu asemel
 - Nulliga jagamine
@@ -36,10 +67,20 @@ Näiteks:
 - Negatiivse arvu ruutjuure arvutamine
 - Tundmatu tehtemärgi sisestamine
 
+## 🚪 Programmist väljumine
+
+Programmist saab väljuda, sisestades `q` või `exit`.
+
 ## 🐛 Issues / vigadest teatamine
 
-Kui leiad vea või sul on idee, kuidas kalkulaatorit paremaks teha, ava GitHubis uus issue:
+Kui leiad vea või sul on idee, kuidas kalkulaatorit paremaks teha, [ava uus issue](https://github.com/kodaniq/Kalkulaator/issues/new).
 
-[Report an issue](https://github.com/kodaniq/Kalkulaator/issues/new)
+Palun kirjelda võimalusel:
 
-Palun kirjelda võimalusel, mida tegid, mida ootasid ja mis tegelikult juhtus.
+- mida tegid;
+- mida ootasid;
+- mis tegelikult juhtus.
+
+## 🤝 Contributing
+
+Parandused ja uued ideed on teretulnud. Võid avada issue või saata pull requesti.
