@@ -1,6 +1,7 @@
 # 🧮 Kalkulaator
 
 [![Tests](https://github.com/kodaniq/Kalkulaator/actions/workflows/tests.yml/badge.svg)](https://github.com/kodaniq/Kalkulaator/actions/workflows/tests.yml)
+[![CodeQL](https://github.com/kodaniq/Kalkulaator/actions/workflows/codeql.yml/badge.svg)](https://github.com/kodaniq/Kalkulaator/actions/workflows/codeql.yml)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
@@ -18,9 +19,7 @@ Lihtne Pythonis kirjutatud käsurea kalkulaator, mis toetab põhilisi matemaatil
 ## 📋 Nõuded
 
 - Python 3.10 või uuem
-- Väliseid teeke pole vaja
-
-Kalkulaator kasutab ainult Pythoni standardteeki `math`.
+- Kalkulaatori kasutamiseks pole väliseid teeke vaja
 
 ## ▶️ Käivitamine
 
@@ -61,15 +60,28 @@ Vastus: 8.0
 | `%` | Jäägi leidmine | 10 % 3 = 1 |
 | `sqrt` | Ruutjuur | sqrt 9 = 3 |
 
-## 🧪 Testid
+## 🧪 Testid ja koodi kvaliteet
 
-Testide käivitamiseks:
+Projektis on automaatsed unit-testid ning GitHub Actions kontrollib iga pushi ja pull requesti puhul:
+
+- teste Python 3.10–3.13 versioonidega;
+- test coverage'it;
+- koodi kvaliteeti Ruffiga.
+
+Lokaalselt saad kontrollid käivitada näiteks nii:
 
 ```bash
-python -m unittest discover -s tests -v
+python -m pip install ruff coverage
+ruff check .
+coverage run -m unittest discover -s tests -v
+coverage report
 ```
 
-GitHub Actions käivitab testid automaatselt iga pushi ja pull requesti puhul Python 3.10–3.13 versioonidega.
+## 🔒 Turvalisus ja automaatika
+
+- CodeQL kontrollib koodi turvaprobleemide suhtes.
+- Dependabot kontrollib GitHub Actionsi uuendusi kord nädalas.
+- `.gitignore` hoiab ajutised Pythoni ja tööriistade failid repost väljas.
 
 ## ⚠️ Vigade käsitlemine
 
@@ -89,7 +101,7 @@ Programmist saab väljuda, sisestades `q` või `exit`.
 
 Kui leiad vea või sul on idee, kuidas kalkulaatorit paremaks teha, [ava uus issue](https://github.com/kodaniq/Kalkulaator/issues/new/choose).
 
-Saad valida interaktiivse **Bug report** või **Feature request** vormi.
+Saad valida interaktiivse **Bug report** või **Feature request** vormi. Tühjad issue'd on välja lülitatud, et vajalik info saaks kohe kaasa.
 
 ## 🤝 Contributing
 
