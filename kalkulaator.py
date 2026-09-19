@@ -1,5 +1,8 @@
 import math
 
+UNARY_OPERATIONS = ("sqrt", "abs", "sin", "cos", "tan", "log")
+OPERATIONS = ("+", "-", "*", "/", "**", "%", *UNARY_OPERATIONS)
+
 
 def calculate(arv1, tehe, arv2=None):
     """Arvutab tulemuse antud arvude ja tehtemärgi põhjal."""
@@ -7,6 +10,18 @@ def calculate(arv1, tehe, arv2=None):
         if arv1 < 0:
             raise ValueError("negatiivsest arvust ei saa ruutjuurt võtta.")
         return math.sqrt(arv1)
+    if tehe == "abs":
+        return abs(arv1)
+    if tehe == "sin":
+        return math.sin(math.radians(arv1))
+    if tehe == "cos":
+        return math.cos(math.radians(arv1))
+    if tehe == "tan":
+        return math.tan(math.radians(arv1))
+    if tehe == "log":
+        if arv1 <= 0:
+            raise ValueError("logaritmi saab arvutada ainult positiivsest arvust.")
+        return math.log10(arv1)
 
     if tehe == "+":
         return arv1 + arv2
@@ -30,7 +45,8 @@ def calculate(arv1, tehe, arv2=None):
 
 def main():
     print("Kalkulaator")
-    print("Tehted: +, -, *, /, **, %, sqrt")
+    print("Tehted: +, -, *, /, **, %, sqrt, abs, sin, cos, tan, log")
+    print("sin, cos ja tan kasutavad kraade. log on kümnendlogaritm.")
     print("Väljumiseks kirjuta q või exit.")
 
     while True:
@@ -47,18 +63,19 @@ def main():
             continue
 
         tehe = input(
-            "Mis tehet tahad teha? (+, -, *, /, **, %, sqrt): "
+            "Mis tehet tahad teha? "
+            "(+, -, *, /, **, %, sqrt, abs, sin, cos, tan, log): "
         ).strip().lower()
 
         if tehe in ("q", "exit"):
             print("Headaega!")
             break
 
-        if tehe not in ("+", "-", "*", "/", "**", "%", "sqrt"):
+        if tehe not in OPERATIONS:
             print("Error: sellist tehet ei ole.")
             continue
 
-        if tehe == "sqrt":
+        if tehe in UNARY_OPERATIONS:
             try:
                 print("Vastus:", calculate(arv1, tehe))
             except ValueError as error:
