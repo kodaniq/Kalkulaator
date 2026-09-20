@@ -5,7 +5,7 @@ import operator
 import os
 import re
 
-COMMANDS = ("history", "clear", "clear history", "undo")
+COMMANDS = ("help", "history", "clear", "clear history", "undo")
 CONSTANTS = {
     "pi": math.pi,
     "e": math.e,
@@ -30,6 +30,13 @@ def suggestion(name, choices):
     """Pakub ainult piisavalt sarnase kirjavea korral parandust."""
     matches = difflib.get_close_matches(name, choices, n=1, cutoff=0.7)
     return matches[0] if matches else None
+
+
+def command_suggestion(command):
+    """Pakub käsu kirjavea korral parandust, aga ei sega tavalisi avaldisi."""
+    if not command or any(char.isdigit() or char in "+-*/%^×÷()" for char in command):
+        return None
+    return suggestion(command, COMMANDS)
 
 
 def calculate(arv1, tehe, arv2=None):
@@ -318,6 +325,11 @@ def main():
             continue
 
         if not expression:
+            continue
+
+        guessed_command = command_suggestion(lowered)
+        if guessed_command:
+            print(f"Tundmatu käsk '{expression}'. Kas mõtlesid '{guessed_command}'?")
             continue
 
         try:
