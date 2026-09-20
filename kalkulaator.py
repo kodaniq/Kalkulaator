@@ -146,7 +146,21 @@ def normalize_expression(expression):
     # (nt mitme argumendiga funktsioon) ei muutuks kogemata teiseks avaldiseks.
     expression = re.sub(r"(?<=\d),(?=\d)", ".", expression)
 
-    # Postfix-protsent: 15% -> (15 / 100), samal ajal jääb 10 % 3 jäägitehteks.
+    # Kalkulaatori-stiilis protsent liitmisel/lahutamisel:
+    # 200 + 15% -> 200 + (200 * 15 / 100), 200 - 15% -> 170.
+    relative_percent_pattern = r"(?P<base>(?:\d+(?:\.\d+)?|ans|pi|e))\s*(?P<op>[+\-])\s*(?P<pct>\d+(?:\.\d+)?)\s*%"
+    while re.search(relative_percent_pattern, expression):
+        expression = re.sub(
+            relative_percent_pattern,
+            lambda match: (
+                f"{match.group('base')} {match.group('op')} "
+                f"({match.group('base')} * {match.group('pct')} / 100)"
+            ),
+            expression,
+        )
+
+    # Muudel juhtudel on postfix-protsent lihtsalt sajandik:
+    # 15% -> 0.15 ja 200 * 15% -> 30. Kahe arvu vahel olev 10 % 3 jääb modulo-tehteks.
     percent_pattern = r"(\b(?:\d+(?:\.\d+)?|ans|pi|e)|\))\s*%(?=\s*(?:$|[+\-*/)]))"
     while re.search(percent_pattern, expression):
         expression = re.sub(percent_pattern, r"(\1 / 100)", expression)
@@ -213,7 +227,7 @@ HELP_TOPICS = {
     "pi": ("pi — matemaatiline konstant π.", "Näide: 2 * pi → 6.283185307"),
     "e": ("e — Euleri arv.", "Näide: e ^ 2 → 7.389056099"),
     "ans": ("ans — eelmise arvutuse tulemus.", "Näide: ans / 2"),
-    "%": ("15% — protsent; kahe arvu vahel olev % on jäägitehe.", "Näited: 200 * 15% → 30, 10 % 3 → 1"),
+    "%": ("15% — protsent; + ja - puhul arvestatakse protsenti eelnevast arvust.", "Näited: 200 + 15% → 230, 200 - 15% → 170, 200 * 15% → 30, 10 % 3 → 1"),
     "^": ("^ või ** — astendamine.", "Näide: 2 ^ 10 → 1024"),
     "history": ("history — näitab selle käivituse arvutuste ajalugu.",),
     "clear": ("clear — puhastab terminali ekraani.", "clear history — tühjendab arvutuste ajaloo."),
@@ -249,6 +263,7 @@ def show_help(topic=None):
     print("  sqrt 144")
     print("  sin(30) + cos(60)")
     print("  2pi")
+    print("  200 + 15%")
     print("  200 * 15%")
     print("  2(3 + 4)")
     print("\nTehted: +, -, *, ×, /, ÷, ^, **, %")
