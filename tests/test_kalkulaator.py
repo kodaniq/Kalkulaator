@@ -5,7 +5,7 @@ from contextlib import redirect_stdout
 from io import StringIO
 from unittest.mock import patch
 
-from kalkulaator import calculate, clear_screen, handle_command, parse_expression, show_help, show_history, undo
+from kalkulaator import calculate, clear_screen, command_suggestion, handle_command, parse_expression, show_help, show_history, undo
 
 
 class CalculatorTests(unittest.TestCase):
@@ -207,6 +207,21 @@ class ExpressionParserTests(unittest.TestCase):
 
 
 class CommandTests(unittest.TestCase):
+    def test_history_typo_suggestion(self):
+        self.assertEqual(command_suggestion("histroy"), "history")
+
+    def test_undo_typo_suggestion(self):
+        self.assertEqual(command_suggestion("udno"), "undo")
+
+    def test_clear_history_typo_suggestion(self):
+        self.assertEqual(command_suggestion("cler history"), "clear history")
+
+    def test_normal_expression_has_no_command_suggestion(self):
+        self.assertIsNone(command_suggestion("5 + 3"))
+
+    def test_unrelated_word_has_no_command_suggestion(self):
+        self.assertIsNone(command_suggestion("banana"))
+
     @patch("kalkulaator.os.system")
     def test_clear_screen_uses_platform_command(self, mock_system):
         clear_screen()
