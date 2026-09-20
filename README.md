@@ -27,7 +27,10 @@ Pythonis kirjutatud käsurea kalkulaator, mis toetab mitme tehtega avaldisi, sul
 
 ## 📋 Nõuded
 
-- Python 3.10 või uuem
+Kalkulaatori käivitamiseks on vaja **Python 3.10 või uuemat**.
+
+Pythonit pole veel installitud? Laadi see alla ametlikult veebilehelt:
+https://www.python.org/downloads/
 
 ## ▶️ Käivitamine
 
