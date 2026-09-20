@@ -11,6 +11,7 @@ Pythonis kirjutatud käsurea kalkulaator, mis toetab mitme tehtega avaldisi, sul
 - Mitu tehet ühes avaldises
 - Õige tehete järjekord
 - Sulud
+- Eesti komakohad, näiteks `2,5 + 1,5`
 - Implitsiitne korrutamine, näiteks `2pi`, `2(3 + 4)` ja `3sqrt(9)`
 - Liitmine, lahutamine, korrutamine, jagamine, astendamine, protsendid ja jääk
 - `sqrt`, `abs`, `sin`, `cos`, `tan` ja `log`
@@ -49,6 +50,12 @@ Käsud: help, history, clear
 > 5 + 3 * 2
 Vastus: 11
 
+> 2,5 + 1,5
+Vastus: 4
+
+> 3,14 * 2
+Vastus: 6.28
+
 > (5 + 3) * 2
 Vastus: 16
 
@@ -74,7 +81,7 @@ Vastus: 9
 Vastus: 30
 ```
 
-Tühikud pole kohustuslikud: nii `5+3` kui ka `5 + 3` töötavad. Levinud korrutamistes võib `*` ka ära jätta: `2pi`, `2(3 + 4)`, `3sqrt(9)` ja `(2 + 3)(4 + 5)`.
+Tühikud pole kohustuslikud: nii `5+3` kui ka `5 + 3` töötavad. Komakohaga arvudes saab kasutada nii Eesti koma kui ka punkti, näiteks `2,5` või `2.5`. Levinud korrutamistes võib `*` ka ära jätta: `2pi`, `2(3 + 4)`, `3sqrt(9)` ja `(2 + 3)(4 + 5)`.
 
 ## ➗ Tehted ja funktsioonid
 
@@ -160,7 +167,7 @@ Parser lükkab tagasi tundmatud nimed, atribuutidele ligipääsu, suvalised funk
 
 ## 🧪 Testid
 
-Projektis on unit-testid nii kalkulaatori arvutusloogika kui ka AST-põhise avaldiste parseri jaoks. Testid kontrollivad muu hulgas tehete järjekorda, sulge, `ans`-i, funktsioone, konstante, implitsiitset korrutamist, `^` astendamist, protsente, jäägitehet, nulliga jagamist, kirjavigade soovitusi, teemakohast abi, funktsioonide argumentide arvu ja keelatud sisendeid.
+Projektis on unit-testid nii kalkulaatori arvutusloogika kui ka AST-põhise avaldiste parseri jaoks. Testid kontrollivad muu hulgas tehete järjekorda, sulge, `ans`-i, funktsioone, konstante, koma ja punktiga kümnendarve, implitsiitset korrutamist, `^` astendamist, protsente, jäägitehet, nulliga jagamist, kirjavigade soovitusi, teemakohast abi, funktsioonide argumentide arvu ja keelatud sisendeid.
 
 ```bash
 python -m unittest discover -s tests -v
