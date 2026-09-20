@@ -17,6 +17,7 @@ Pythonis kirjutatud käsurea kalkulaator, mis toetab mitme tehtega avaldisi, sul
 - `sqrt`, `abs`, `sin`, `cos`, `tan` ja `log`
 - Matemaatilised konstandid `pi` ja `e`
 - `ans` eelmise vastuse kasutamiseks
+- `undo` viimase arvutuse eemaldamiseks ja eelmise `ans` väärtuse taastamiseks
 - `help`, teemakohane `help <teema>`, `history`, ekraani puhastav `clear` ja ajaloo jaoks `clear history`
 - Vigaste sisendite kontroll ja kasulikud veateated
 - Kirjavigade puhul soovitused tuntud funktsioonidele ja nimedele
@@ -45,7 +46,7 @@ python3 kalkulaator.py
 ```text
 Kalkulaator
 Sisesta avaldis, näiteks: (5 + 3) * 2 või sin(30) + cos(60)
-Käsud: help, history, clear, clear history
+Käsud: help, history, undo, clear, clear history
 
 > 5 + 3 * 2
 Vastus: 11
@@ -125,6 +126,7 @@ Konstante saab kasutada avaldistes samamoodi nagu tavalisi arve. Trigonomeetrili
 | `help` | Näitab üldist kasutusabi |
 | `help <teema>` | Näitab konkreetse funktsiooni või teema abi, nt `help sqrt` |
 | `history` | Näitab selle käivituse jooksul tehtud arvutusi |
+| `undo` | Eemaldab viimase arvutuse ja taastab eelmise `ans` väärtuse |
 | `clear` | Puhastab terminali ekraani |
 | `clear history` | Tühjendab arvutuste ajaloo |
 | `ans` | Kasutab avaldises eelmist vastust |
@@ -157,13 +159,17 @@ Ka abiteemade kirjavigade puhul kasutatakse soovitusi, näiteks `help sqr` pakub
 
 ## 🕘 Arvutuste ajalugu
 
-`history` näitab selle käivituse jooksul tehtud avaldisi ja vastuseid nummerdatud loendina. Ajalugu saab tühjendada käsuga `clear history`. Käsk `clear` puhastab ainult terminali ekraani ega kustuta ajalugu.
+`history` näitab selle käivituse jooksul tehtud avaldisi ja vastuseid nummerdatud loendina. `undo` eemaldab viimase arvutuse ning taastab `ans` väärtuseks eelmise arvutuse tulemuse. Kui ühtegi varasemat arvutust ei jää, muutub `ans` tühjaks. Ajalugu saab tühjendada käsuga `clear history`. Käsk `clear` puhastab ainult terminali ekraani ega kustuta ajalugu.
 
 ```text
 --- Arvutuste ajalugu ---
 1. 5 + 3 * 2 = 11
 2. sqrt(144) = 12
 3. 2 * pi = 6.283185307
+
+> undo
+Eelmine arvutus eemaldatud.
+ans = 12
 ```
 
 ## 🔐 Avaldiste turvalisus
@@ -174,7 +180,7 @@ Parser lükkab tagasi tundmatud nimed, atribuutidele ligipääsu, suvalised funk
 
 ## 🧪 Testid
 
-Projektis on unit-testid nii kalkulaatori arvutusloogika kui ka AST-põhise avaldiste parseri jaoks. Testid kontrollivad muu hulgas tehete järjekorda, sulge, `ans`-i, funktsioone, konstante, koma ja punktiga kümnendarve, `×` ja `÷` sümboleid koos tavaliste `*` ja `/` märkidega, implitsiitset korrutamist, `^` astendamist, protsente, jäägitehet, nulliga jagamist, kirjavigade soovitusi, teemakohast abi, `clear` ja `clear history` käitumist, funktsioonide argumentide arvu ja keelatud sisendeid.
+Projektis on unit-testid nii kalkulaatori arvutusloogika kui ka AST-põhise avaldiste parseri jaoks. Testid kontrollivad muu hulgas tehete järjekorda, sulge, `ans`-i, funktsioone, konstante, koma ja punktiga kümnendarve, `×` ja `÷` sümboleid koos tavaliste `*` ja `/` märkidega, implitsiitset korrutamist, `^` astendamist, protsente, jäägitehet, nulliga jagamist, kirjavigade soovitusi, teemakohast abi, `undo`, `clear` ja `clear history` käitumist, funktsioonide argumentide arvu ja keelatud sisendeid.
 
 ```bash
 python -m unittest discover -s tests -v
