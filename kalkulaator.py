@@ -142,6 +142,10 @@ def normalize_expression(expression):
     """Teisendab kasutajasõbraliku süntaksi AST-le sobivaks."""
     expression = expression.strip().replace("×", "*").replace("÷", "/").replace("^", "**")
 
+    # x või X töötab korrutusmärgina siis, kui see on arvutuslike väärtuste vahel.
+    # Näiteks 2x(5+26), 5x3 ja (2+3)x4.
+    expression = re.sub(r"(?<=[\d)])\s*[xX]\s*(?=(?:\d|\(|ans\b|pi\b|e\b|(?:sqrt|abs|sin|cos|tan|log)\b))", " * ", expression)
+
     # Eesti komakohad: 2,5 -> 2.5. Muud komad jäävad alles, et vigane süntaks
     # (nt mitme argumendiga funktsioon) ei muutuks kogemata teiseks avaldiseks.
     expression = re.sub(r"(?<=\d),(?=\d)", ".", expression)
@@ -256,6 +260,7 @@ def show_help(topic=None):
     print("  5 + 3 * 2")
     print("  2,5 + 1,5")
     print("  5 × 3")
+    print("  2x(5 + 26) - 32")
     print("  10 ÷ 2")
     print("  (5 + 3) * 2")
     print("  2 ^ 3 + 4")
@@ -266,7 +271,7 @@ def show_help(topic=None):
     print("  200 + 15%")
     print("  200 * 15%")
     print("  2(3 + 4)")
-    print("\nTehted: +, -, *, ×, /, ÷, ^, **, %")
+    print("\nTehted: +, -, *, x, ×, /, ÷, ^, **, %")
     print("Funktsioonid: sqrt, abs, sin, cos, tan, log")
     print("Konstandid: pi, e")
     print("Korrutamisel võib * mõnikord ära jätta: 2pi, 2(3 + 4), 3sqrt(9)")
