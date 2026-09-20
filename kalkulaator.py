@@ -2,9 +2,10 @@ import ast
 import difflib
 import math
 import operator
+import os
 import re
 
-COMMANDS = ("history", "clear")
+COMMANDS = ("history", "clear", "clear history")
 CONSTANTS = {
     "pi": math.pi,
     "e": math.e,
@@ -189,7 +190,7 @@ HELP_TOPICS = {
     "%": ("15% — protsent; kahe arvu vahel olev % on jäägitehe.", "Näited: 200 * 15% → 30, 10 % 3 → 1"),
     "^": ("^ või ** — astendamine.", "Näide: 2 ^ 10 → 1024"),
     "history": ("history — näitab selle käivituse arvutuste ajalugu.",),
-    "clear": ("clear — tühjendab arvutuste ajaloo.",),
+    "clear": ("clear — puhastab terminali ekraani.", "clear history — tühjendab arvutuste ajaloo."),
 }
 
 
@@ -227,7 +228,7 @@ def show_help(topic=None):
     print("Funktsioonid: sqrt, abs, sin, cos, tan, log")
     print("Konstandid: pi, e")
     print("Korrutamisel võib * mõnikord ära jätta: 2pi, 2(3 + 4), 3sqrt(9)")
-    print("Käsud: help, history, clear")
+    print("Käsud: help, history, clear, clear history")
     print("Täpsema abi jaoks: help <teema>, näiteks help sqrt")
 
 
@@ -240,10 +241,17 @@ def show_history(history):
         print(f"{number}. {calculation}")
 
 
+def clear_screen():
+    """Puhastab terminali ekraani Windowsis, macOS-is ja Linuxis."""
+    os.system("cls" if os.name == "nt" else "clear")
+
+
 def handle_command(command, history):
     if command == "history":
         show_history(history)
     elif command == "clear":
+        clear_screen()
+    elif command == "clear history":
         history.clear()
         print("Arvutuste ajalugu tühjendatud.")
 
