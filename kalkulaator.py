@@ -3,6 +3,10 @@ import math
 import operator
 
 COMMANDS = ("help", "history", "clear")
+CONSTANTS = {
+    "pi": math.pi,
+    "e": math.e,
+}
 BINARY_OPERATORS = {
     ast.Add: operator.add,
     ast.Sub: operator.sub,
@@ -75,6 +79,8 @@ def evaluate_node(node, ans):
             if ans is None:
                 raise ValueError("eelmist vastust veel ei ole.")
             return ans
+        if node.id in CONSTANTS:
+            return CONSTANTS[node.id]
         raise ValueError(f"tundmatu nimi: {node.id}.")
 
     if isinstance(node, ast.BinOp) and type(node.op) in BINARY_OPERATORS:
@@ -139,8 +145,10 @@ def show_help():
     print("  ans / 2 + 7")
     print("  sqrt 144")
     print("  sin(30) + cos(60)")
+    print("  2 * pi")
     print("\nTehted: +, -, *, /, **, %")
     print("Funktsioonid: sqrt, abs, sin, cos, tan, log")
+    print("Konstandid: pi, e")
     print("sin, cos ja tan kasutavad kraade.")
     print("ans kasutab eelmise arvutuse vastust.")
     print("Käsud: help, history, clear")
