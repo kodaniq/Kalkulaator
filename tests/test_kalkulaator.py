@@ -103,6 +103,18 @@ class ExpressionParserTests(unittest.TestCase):
     def test_postfix_percentage(self):
         self.assertEqual(parse_expression("200 * 15%", None), 30)
 
+    def test_add_percentage_relative_to_base(self):
+        self.assertEqual(parse_expression("200 + 15%", None), 230)
+
+    def test_subtract_percentage_relative_to_base(self):
+        self.assertEqual(parse_expression("200 - 15%", None), 170)
+
+    def test_decimal_relative_percentage(self):
+        self.assertEqual(parse_expression("200 + 12,5%", None), 225)
+
+    def test_ans_relative_percentage(self):
+        self.assertEqual(parse_expression("ans + 25%", 80), 100)
+
     def test_percentage_of_ans(self):
         self.assertEqual(parse_expression("ans * 25%", 80), 20)
 
