@@ -13,7 +13,7 @@ Pythonis kirjutatud käsurea kalkulaator, mis toetab mitme tehtega avaldisi, sul
 - Sulud
 - Eesti komakohad, näiteks `2,5 + 1,5`
 - Implitsiitne korrutamine, näiteks `2pi`, `2(3 + 4)` ja `3sqrt(9)`
-- Liitmine, lahutamine, korrutamine (`*` või `×`), jagamine (`/` või `÷`), astendamine, protsendid ja jääk
+- Liitmine, lahutamine, korrutamine (`*` või `×`), jagamine (`/` või `÷`), astendamine, kalkulaatori-stiilis protsendid ja jääk
 - `sqrt`, `abs`, `sin`, `cos`, `tan` ja `log`
 - Matemaatilised konstandid `pi` ja `e`
 - `ans` eelmise vastuse kasutamiseks
@@ -84,6 +84,12 @@ Vastus: 14
 > 3sqrt(9)
 Vastus: 9
 
+> 200 + 15%
+Vastus: 230
+
+> 200 - 15%
+Vastus: 170
+
 > 200 * 15%
 Vastus: 30
 ```
@@ -99,7 +105,8 @@ Tühikud pole kohustuslikud: nii `5+3` kui ka `5 + 3` töötavad. Komakohaga arv
 | `*` või `×` | Korrutamine | `5 × 3` → 15 |
 | `/` või `÷` | Jagamine | `6 ÷ 3` → 2 |
 | `^` või `**` | Astendamine | `2 ^ 3` → 8 |
-| `15%` | Protsent | `200 * 15%` → 30 |
+| `+ 15%` / `- 15%` | Protsendi lisamine või lahutamine eelnevast arvust | `200 + 15%` → 230 |
+| `15%` | Protsent korrutamisel | `200 * 15%` → 30 |
 | `%` | Jäägi leidmine kahe arvu vahel | `10 % 3` → 1 |
 | `sqrt(x)` | Ruutjuur | `sqrt(9)` → 3 |
 | `abs(x)` | Absoluutväärtus | `abs(-5)` → 5 |
@@ -108,7 +115,7 @@ Tühikud pole kohustuslikud: nii `5+3` kui ka `5 + 3` töötavad. Komakohaga arv
 | `tan(x)` | Tangens kraadides | `tan(45)` → 1 |
 | `log(x)` | Kümnendlogaritm | `log(100)` → 2 |
 
-Tavalised `*` ja `/` märgid jäävad täielikult toetatuks; lisaks saab kasutada kalkulaatoritest tuttavaid `×` ja `÷` märke. Lihtsad funktsioonid töötavad ka ilma sulgudeta, näiteks `sqrt 144`. Implitsiitne korrutamine võimaldab kirjutada loomulikumalt `2pi`, `2(3 + 4)`, `3sqrt(9)` ja `(2 + 3)(4 + 5)` ilma `*` märgita. Astendamiseks saab kasutada nii `^` kui ka `**`. Protsendi saab kirjutada otse arvu järele, näiteks `15%`; tühikutega kahe arvu vahel olev `%` töötab endiselt jäägitehtena.
+Tavalised `*` ja `/` märgid jäävad täielikult toetatuks; lisaks saab kasutada kalkulaatoritest tuttavaid `×` ja `÷` märke. Lihtsad funktsioonid töötavad ka ilma sulgudeta, näiteks `sqrt 144`. Implitsiitne korrutamine võimaldab kirjutada loomulikumalt `2pi`, `2(3 + 4)`, `3sqrt(9)` ja `(2 + 3)(4 + 5)` ilma `*` märgita. Astendamiseks saab kasutada nii `^` kui ka `**`. Protsendi saab kirjutada otse arvu järele. Liitmisel ja lahutamisel käitub see nagu tavakalkulaatoris: `200 + 15%` → 230 ja `200 - 15%` → 170. Korrutamisel jääb `200 * 15%` → 30. Tühikutega kahe arvu vahel olev `%` töötab endiselt jäägitehtena.
 
 ## 🔢 Konstandid
 
@@ -146,7 +153,7 @@ Näide: sqrt(144) → 12
 
 --- Abi: % ---
 15% — protsent; kahe arvu vahel olev % on jäägitehe.
-Näited: 200 * 15% → 30, 10 % 3 → 1
+Näited: 200 + 15% → 230, 200 - 15% → 170, 200 * 15% → 30, 10 % 3 → 1
 
 > help ans
 
@@ -180,7 +187,7 @@ Parser lükkab tagasi tundmatud nimed, atribuutidele ligipääsu, suvalised funk
 
 ## 🧪 Testid
 
-Projektis on unit-testid nii kalkulaatori arvutusloogika kui ka AST-põhise avaldiste parseri jaoks. Testid kontrollivad muu hulgas tehete järjekorda, sulge, `ans`-i, funktsioone, konstante, koma ja punktiga kümnendarve, `×` ja `÷` sümboleid koos tavaliste `*` ja `/` märkidega, implitsiitset korrutamist, `^` astendamist, protsente, jäägitehet, nulliga jagamist, kirjavigade soovitusi funktsioonidele, nimedele ja käskudele, teemakohast abi, `undo`, `clear` ja `clear history` käitumist, täpsemaid süntaksiveateateid, funktsioonide argumentide arvu ja keelatud sisendeid.
+Projektis on unit-testid nii kalkulaatori arvutusloogika kui ka AST-põhise avaldiste parseri jaoks. Testid kontrollivad muu hulgas tehete järjekorda, sulge, `ans`-i, funktsioone, konstante, koma ja punktiga kümnendarve, `×` ja `÷` sümboleid koos tavaliste `*` ja `/` märkidega, implitsiitset korrutamist, `^` astendamist, kalkulaatori-stiilis protsentide liitmist ja lahutamist, protsentidega korrutamist, jäägitehet, nulliga jagamist, kirjavigade soovitusi funktsioonidele, nimedele ja käskudele, teemakohast abi, `undo`, `clear` ja `clear history` käitumist, täpsemaid süntaksiveateateid, funktsioonide argumentide arvu ja keelatud sisendeid.
 
 ```bash
 python -m unittest discover -s tests -v
