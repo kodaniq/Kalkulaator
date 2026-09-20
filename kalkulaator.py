@@ -159,8 +159,8 @@ def show_history(history):
     if not history:
         print("Ajalugu on tühi.")
         return
-    for calculation in history:
-        print(calculation)
+    for number, calculation in enumerate(history, start=1):
+        print(f"{number}. {calculation}")
 
 
 def handle_command(command, history):
