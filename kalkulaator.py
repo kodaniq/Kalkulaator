@@ -158,13 +158,32 @@ def normalize_expression(expression):
     return expression
 
 
+def syntax_error_message(expression, error):
+    """Muudab Pythoni SyntaxError-i kasutajasõbralikumaks."""
+    opening = expression.count("(")
+    closing = expression.count(")")
+    if opening > closing:
+        return "sulgev ) on puudu."
+    if closing > opening:
+        return "üleliigne ) avaldises."
+
+    operators = r"(?:\*\*|[+\-*/%])"
+    match = re.search(rf"({operators})\s*({operators})(?!\*)", expression)
+    if match:
+        return f"ootamatu {match.group(2)} pärast {match.group(1)}."
+
+    if error.offset:
+        return f"vigane avaldis positsiooni {error.offset} juures. Abi saamiseks kirjuta help."
+    return "vigane avaldis. Abi saamiseks kirjuta help."
+
+
 def parse_expression(expression, ans):
     """Parsib ja arvutab avaldise turvaliselt ilma eval()-ita."""
     normalized = normalize_expression(expression.lower())
     try:
         tree = ast.parse(normalized, mode="eval")
     except SyntaxError as error:
-        raise ValueError("vigane avaldis. Abi saamiseks kirjuta help.") from error
+        raise ValueError(syntax_error_message(normalized, error)) from error
 
     try:
         result = evaluate_node(tree.body, ans)
