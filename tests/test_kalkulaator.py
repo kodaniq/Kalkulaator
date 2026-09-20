@@ -5,7 +5,7 @@ from contextlib import redirect_stdout
 from io import StringIO
 from unittest.mock import patch
 
-from kalkulaator import calculate, clear_screen, handle_command, parse_expression, show_help
+from kalkulaator import calculate, clear_screen, handle_command, parse_expression, show_help, show_history, undo
 
 
 class CalculatorTests(unittest.TestCase):
@@ -195,15 +195,38 @@ class CommandTests(unittest.TestCase):
 
     @patch("kalkulaator.clear_screen")
     def test_clear_does_not_delete_history(self, mock_clear_screen):
-        history = ["2 + 2 = 4"]
+        history = [("2 + 2", 4)]
         handle_command("clear", history)
-        self.assertEqual(history, ["2 + 2 = 4"])
+        self.assertEqual(history, [("2 + 2", 4)])
         mock_clear_screen.assert_called_once()
 
     def test_clear_history_deletes_history(self):
-        history = ["2 + 2 = 4"]
+        history = [("2 + 2", 4)]
         handle_command("clear history", history)
         self.assertEqual(history, [])
+
+    def test_undo_removes_last_calculation_and_restores_ans(self):
+        history = [("10 + 5", 15), ("20 * 3", 60)]
+        self.assertEqual(undo(history), 15)
+        self.assertEqual(history, [("10 + 5", 15)])
+
+    def test_undo_last_calculation_clears_ans(self):
+        history = [("10 + 5", 15)]
+        self.assertIsNone(undo(history))
+        self.assertEqual(history, [])
+
+    def test_undo_empty_history(self):
+        history = []
+        self.assertIsNone(undo(history))
+        self.assertEqual(history, [])
+
+    def test_history_formats_structured_entries(self):
+        history = [("5 + 3", 8), ("10 / 4", 2.5)]
+        output = StringIO()
+        with redirect_stdout(output):
+            show_history(history)
+        self.assertIn("1. 5 + 3 = 8", output.getvalue())
+        self.assertIn("2. 10 / 4 = 2.5", output.getvalue())
 
 
 class HelpTests(unittest.TestCase):
