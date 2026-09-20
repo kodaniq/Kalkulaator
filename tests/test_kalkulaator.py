@@ -185,6 +185,26 @@ class ExpressionParserTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "nulliga"):
             parse_expression("10 / (5 - 5)", None)
 
+    def test_missing_closing_parenthesis_has_clear_error(self):
+        with self.assertRaisesRegex(ValueError, r"sulgev \) on puudu"):
+            parse_expression("(5 + 3", None)
+
+    def test_missing_function_parenthesis_has_clear_error(self):
+        with self.assertRaisesRegex(ValueError, r"sulgev \) on puudu"):
+            parse_expression("sqrt(", None)
+
+    def test_extra_closing_parenthesis_has_clear_error(self):
+        with self.assertRaisesRegex(ValueError, r"üleliigne \)"):
+            parse_expression("5 + 3)", None)
+
+    def test_double_operator_has_clear_error(self):
+        with self.assertRaisesRegex(ValueError, r"ootamatu \* pärast \+"):
+            parse_expression("5 + * 3", None)
+
+    def test_generic_syntax_error_shows_position(self):
+        with self.assertRaisesRegex(ValueError, r"positsiooni \d+ juures"):
+            parse_expression("5 +", None)
+
 
 class CommandTests(unittest.TestCase):
     @patch("kalkulaator.os.system")
