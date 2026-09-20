@@ -15,7 +15,7 @@ Pythonis kirjutatud käsurea kalkulaator, mis toetab mitme tehtega avaldisi, sul
 - `sqrt`, `abs`, `sin`, `cos`, `tan` ja `log`
 - Matemaatilised konstandid `pi` ja `e`
 - `ans` eelmise vastuse kasutamiseks
-- `help`, `history` ja `clear`
+- `help`, teemakohane `help <teema>`, `history` ja `clear`
 - Vigaste sisendite kontroll ja kasulikud veateated
 - Kirjavigade puhul soovitused tuntud funktsioonidele ja nimedele
 - Turvaline AST-põhine parser ilma `eval()`-ita
@@ -102,10 +102,37 @@ Konstante saab kasutada avaldistes samamoodi nagu tavalisi arve. Trigonomeetrili
 
 | Käsk | Tegevus |
 | --- | --- |
-| `help` | Näitab kasutusabi |
+| `help` | Näitab üldist kasutusabi |
+| `help <teema>` | Näitab konkreetse funktsiooni või teema abi, nt `help sqrt` |
 | `history` | Näitab selle käivituse jooksul tehtud arvutusi |
 | `clear` | Tühjendab arvutuste ajaloo |
 | `ans` | Kasutab avaldises eelmist vastust |
+
+## 🆘 Teemakohane abi
+
+Käsuga `help <teema>` saab vaadata ainult vajaliku funktsiooni või võimaluse juhiseid:
+
+```text
+> help sqrt
+
+--- Abi: sqrt ---
+sqrt(x) — leiab ruutjuure.
+Näide: sqrt(144) → 12
+
+> help %
+
+--- Abi: % ---
+15% — protsent; kahe arvu vahel olev % on jäägitehe.
+Näited: 200 * 15% → 30, 10 % 3 → 1
+
+> help ans
+
+--- Abi: ans ---
+ans — eelmise arvutuse tulemus.
+Näide: ans / 2
+```
+
+Ka abiteemade kirjavigade puhul kasutatakse soovitusi, näiteks `help sqr` pakub `sqrt`.
 
 ## 🕘 Arvutuste ajalugu
 
@@ -126,7 +153,7 @@ Parser lükkab tagasi tundmatud nimed, atribuutidele ligipääsu, suvalised funk
 
 ## 🧪 Testid
 
-Projektis on unit-testid nii kalkulaatori arvutusloogika kui ka AST-põhise avaldiste parseri jaoks. Testid kontrollivad muu hulgas tehete järjekorda, sulge, `ans`-i, funktsioone, konstante, `^` astendamist, protsente, jäägitehet, nulliga jagamist, kirjavigade soovitusi, funktsioonide argumentide arvu ja keelatud sisendeid.
+Projektis on unit-testid nii kalkulaatori arvutusloogika kui ka AST-põhise avaldiste parseri jaoks. Testid kontrollivad muu hulgas tehete järjekorda, sulge, `ans`-i, funktsioone, konstante, `^` astendamist, protsente, jäägitehet, nulliga jagamist, kirjavigade soovitusi, teemakohast abi, funktsioonide argumentide arvu ja keelatud sisendeid.
 
 ```bash
 python -m unittest discover -s tests -v
