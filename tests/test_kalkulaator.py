@@ -109,6 +109,24 @@ class ExpressionParserTests(unittest.TestCase):
     def test_constants_inside_expression(self):
         self.assertAlmostEqual(parse_expression("2 * pi + e", None), 2 * math.pi + math.e)
 
+    def test_implicit_multiplication_with_constant(self):
+        self.assertAlmostEqual(parse_expression("2pi", None), 2 * math.pi)
+
+    def test_implicit_multiplication_with_parentheses(self):
+        self.assertEqual(parse_expression("2(3 + 4)", None), 14)
+
+    def test_implicit_multiplication_with_function(self):
+        self.assertEqual(parse_expression("3sqrt(9)", None), 9)
+
+    def test_implicit_multiplication_between_parentheses(self):
+        self.assertEqual(parse_expression("(2 + 3)(4 + 5)", None), 45)
+
+    def test_implicit_multiplication_after_parentheses(self):
+        self.assertAlmostEqual(parse_expression("(1 + 1)pi", None), 2 * math.pi)
+
+    def test_implicit_multiplication_with_ans(self):
+        self.assertEqual(parse_expression("2ans", 7), 14)
+
     def test_unknown_name_is_rejected(self):
         with self.assertRaisesRegex(ValueError, "tundmatu nimi"):
             parse_expression("banana + 1", None)
