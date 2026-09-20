@@ -104,7 +104,14 @@ Konstante saab kasutada avaldistes samamoodi nagu tavalisi arve. Trigonomeetrili
 
 ## 🕘 Arvutuste ajalugu
 
-`history` näitab selle käivituse jooksul tehtud avaldisi ja vastuseid. Ajalugu saab tühjendada käsuga `clear`.
+`history` näitab selle käivituse jooksul tehtud avaldisi ja vastuseid nummerdatud loendina. Ajalugu saab tühjendada käsuga `clear`.
+
+```text
+--- Arvutuste ajalugu ---
+1. 5 + 3 * 2 = 11
+2. sqrt(144) = 12
+3. 2 * pi = 6.283185307
+```
 
 ## 🔐 Avaldiste turvalisus
 
