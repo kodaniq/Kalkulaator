@@ -197,9 +197,10 @@ def syntax_error_message(expression, error):
     if match:
         return f"ootamatu {match.group(2)} pärast {match.group(1)}."
 
-    if error.offset:
-        return f"vigane avaldis positsiooni {error.offset} juures. Abi saamiseks kirjuta help."
-    return "vigane avaldis. Abi saamiseks kirjuta help."
+    # Mõni Pythoni versioon (nt 3.14) võib rea lõpus oleva vea puhul
+    # anda offsetiks 0/None. Näitame ka siis kasutajale kasulikku positsiooni.
+    position = error.offset or (len(expression) + 1)
+    return f"vigane avaldis positsiooni {position} juures. Abi saamiseks kirjuta help."
 
 
 def parse_expression(expression, ans):
