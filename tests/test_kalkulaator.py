@@ -1,7 +1,10 @@
 import math
 import unittest
 
-from kalkulaator import calculate, parse_expression
+from contextlib import redirect_stdout
+from io import StringIO
+
+from kalkulaator import calculate, parse_expression, show_help
 
 
 class CalculatorTests(unittest.TestCase):
@@ -141,6 +144,37 @@ class ExpressionParserTests(unittest.TestCase):
     def test_division_by_zero_in_expression(self):
         with self.assertRaisesRegex(ValueError, "nulliga"):
             parse_expression("10 / (5 - 5)", None)
+
+
+class HelpTests(unittest.TestCase):
+    def get_help_output(self, topic=None):
+        output = StringIO()
+        with redirect_stdout(output):
+            show_help(topic)
+        return output.getvalue()
+
+    def test_specific_function_help(self):
+        output = self.get_help_output("sqrt")
+        self.assertIn("sqrt(x)", output)
+        self.assertIn("sqrt(144)", output)
+
+    def test_percentage_help(self):
+        output = self.get_help_output("%")
+        self.assertIn("200 * 15%", output)
+        self.assertIn("10 % 3", output)
+
+    def test_ans_help(self):
+        output = self.get_help_output("ans")
+        self.assertIn("eelmise arvutuse tulemus", output)
+
+    def test_help_typo_suggestion(self):
+        output = self.get_help_output("sqr")
+        self.assertIn("Kas mõtlesid 'sqrt'?", output)
+
+    def test_unknown_help_topic_without_bad_suggestion(self):
+        output = self.get_help_output("banana")
+        self.assertIn("Tundmatu abiteema 'banana'.", output)
+        self.assertNotIn("Kas mõtlesid", output)
 
 
 if __name__ == "__main__":
