@@ -88,6 +88,18 @@ class ExpressionParserTests(unittest.TestCase):
     def test_multiplication_symbol(self):
         self.assertEqual(parse_expression("5 × 3", None), 15)
 
+    def test_x_multiplication(self):
+        self.assertEqual(parse_expression("5x3", None), 15)
+
+    def test_x_multiplication_with_parentheses(self):
+        self.assertEqual(parse_expression("2x(5+26) - 32", None), 30)
+
+    def test_uppercase_x_multiplication(self):
+        self.assertEqual(parse_expression("4X5", None), 20)
+
+    def test_x_after_parentheses(self):
+        self.assertEqual(parse_expression("(2+3)x4", None), 20)
+
     def test_division_symbol(self):
         self.assertEqual(parse_expression("10 ÷ 2", None), 5)
 
