@@ -134,6 +134,10 @@ def normalize_expression(expression):
     """Teisendab kasutajasõbraliku süntaksi AST-le sobivaks."""
     expression = expression.strip().replace("^", "**")
 
+    # Eesti komakohad: 2,5 -> 2.5. Muud komad jäävad alles, et vigane süntaks
+    # (nt mitme argumendiga funktsioon) ei muutuks kogemata teiseks avaldiseks.
+    expression = re.sub(r"(?<=\d),(?=\d)", ".", expression)
+
     # Postfix-protsent: 15% -> (15 / 100), samal ajal jääb 10 % 3 jäägitehteks.
     percent_pattern = r"(\b(?:\d+(?:\.\d+)?|ans|pi|e)|\))\s*%(?=\s*(?:$|[+\-*/)]))"
     while re.search(percent_pattern, expression):
@@ -208,6 +212,7 @@ def show_help(topic=None):
     print("\n--- Abi ---")
     print("Näited:")
     print("  5 + 3 * 2")
+    print("  2,5 + 1,5")
     print("  (5 + 3) * 2")
     print("  2 ^ 3 + 4")
     print("  ans / 2 + 7")
