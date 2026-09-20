@@ -110,6 +110,22 @@ class ExpressionParserTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "tundmatu nimi"):
             parse_expression("banana + 1", None)
 
+    def test_constant_typo_suggests_pi(self):
+        with self.assertRaisesRegex(ValueError, r"tundmatu nimi 'pii'.*Kas mõtlesid 'pi'"):
+            parse_expression("pii * 2", None)
+
+    def test_function_typo_suggests_sqrt(self):
+        with self.assertRaisesRegex(ValueError, r"tundmatu funktsioon 'sqr'.*Kas mõtlesid 'sqrt'"):
+            parse_expression("sqr(9)", None)
+
+    def test_unrelated_name_has_no_suggestion(self):
+        with self.assertRaisesRegex(ValueError, r"^tundmatu nimi 'banana'\.$"):
+            parse_expression("banana + 1", None)
+
+    def test_wrong_function_argument_count(self):
+        with self.assertRaisesRegex(ValueError, "vajab täpselt ühte argumenti"):
+            parse_expression("sqrt(9, 16)", None)
+
     def test_attribute_access_is_rejected(self):
         with self.assertRaisesRegex(ValueError, "mittetoetatud süntaksit"):
             parse_expression("(1).__class__", None)
