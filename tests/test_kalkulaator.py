@@ -75,6 +75,15 @@ class ExpressionParserTests(unittest.TestCase):
     def test_parentheses(self):
         self.assertEqual(parse_expression("(2 + 3) * 4", None), 20)
 
+    def test_decimal_comma(self):
+        self.assertEqual(parse_expression("2,5 + 1,5", None), 4)
+
+    def test_decimal_comma_in_function(self):
+        self.assertAlmostEqual(parse_expression("sin(30,5)", None), math.sin(math.radians(30.5)))
+
+    def test_decimal_comma_with_implicit_multiplication(self):
+        self.assertAlmostEqual(parse_expression("2,5pi", None), 2.5 * math.pi)
+
     def test_caret_power(self):
         self.assertEqual(parse_expression("2 ^ 10", None), 1024)
 
