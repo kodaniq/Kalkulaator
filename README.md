@@ -19,7 +19,7 @@ Pythonis kirjutatud käsurea kalkulaator, mis toetab mitme tehtega avaldisi, sul
 - `ans` eelmise vastuse kasutamiseks
 - `undo` viimase arvutuse eemaldamiseks ja eelmise `ans` väärtuse taastamiseks
 - `help`, teemakohane `help <teema>`, `history`, ekraani puhastav `clear` ja ajaloo jaoks `clear history`
-- Vigaste sisendite kontroll ja kasulikud veateated
+- Vigaste sisendite kontroll ja täpsemad veateated, näiteks puuduva sulu või vigase tehtemärgi kohta
 - Kirjavigade puhul soovitused tuntud funktsioonidele ja nimedele
 - Turvaline AST-põhine parser ilma `eval()`-ita
 - Parseri ja arvutusloogika unit-testid
@@ -180,7 +180,7 @@ Parser lükkab tagasi tundmatud nimed, atribuutidele ligipääsu, suvalised funk
 
 ## 🧪 Testid
 
-Projektis on unit-testid nii kalkulaatori arvutusloogika kui ka AST-põhise avaldiste parseri jaoks. Testid kontrollivad muu hulgas tehete järjekorda, sulge, `ans`-i, funktsioone, konstante, koma ja punktiga kümnendarve, `×` ja `÷` sümboleid koos tavaliste `*` ja `/` märkidega, implitsiitset korrutamist, `^` astendamist, protsente, jäägitehet, nulliga jagamist, kirjavigade soovitusi, teemakohast abi, `undo`, `clear` ja `clear history` käitumist, funktsioonide argumentide arvu ja keelatud sisendeid.
+Projektis on unit-testid nii kalkulaatori arvutusloogika kui ka AST-põhise avaldiste parseri jaoks. Testid kontrollivad muu hulgas tehete järjekorda, sulge, `ans`-i, funktsioone, konstante, koma ja punktiga kümnendarve, `×` ja `÷` sümboleid koos tavaliste `*` ja `/` märkidega, implitsiitset korrutamist, `^` astendamist, protsente, jäägitehet, nulliga jagamist, kirjavigade soovitusi, teemakohast abi, `undo`, `clear` ja `clear history` käitumist, täpsemaid süntaksiveateateid, funktsioonide argumentide arvu ja keelatud sisendeid.
 
 ```bash
 python -m unittest discover -s tests -v
@@ -195,6 +195,8 @@ python -m unittest discover -s tests -v
 ## ⚠️ Vigade käsitlemine
 
 Kalkulaator kontrollib muu hulgas nulliga jagamist, vigaseid avaldisi, negatiivse arvu ruutjuurt, vigast logaritmi, tundmatuid nimesid, funktsioonide argumentide arvu ning mittetoetatud süntaksit.
+
+Süntaksivigade puhul proovib kalkulaator öelda, mis täpselt valesti läks. Näiteks puuduva või üleliigse sulu korral nimetab ta sulu probleemi ning järjestikuste vigaste tehtemärkide korral näitab probleemseid märke. Muude süntaksivigade puhul kuvatakse võimalusel vea positsioon.
 
 Levinud kirjavigade puhul pakub kalkulaator parandust ainult siis, kui sisend on piisavalt sarnane mõne toetatud nime või funktsiooniga:
 
