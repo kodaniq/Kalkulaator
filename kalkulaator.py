@@ -141,7 +141,15 @@ def normalize_expression(expression):
 
     parts = expression.split(maxsplit=1)
     if len(parts) == 2 and parts[0] in FUNCTIONS:
-        return f"{parts[0]}({parts[1]})"
+        expression = f"{parts[0]}({parts[1]})"
+
+    # Implitsiitne korrutamine: 2pi, 2(3 + 4), 3sqrt(9), (2 + 3)(4 + 5).
+    function_pattern = "|".join(FUNCTIONS)
+    value_pattern = r"(?:\d+(?:\.\d+)?|ans|pi|e|\))"
+    expression = re.sub(rf"({value_pattern})(?=\s*(?:{function_pattern})\s*\()", r"\1 * ", expression)
+    expression = re.sub(rf"({value_pattern})(?=\s*\()", r"\1 * ", expression)
+    expression = re.sub(r"(\))\s*(?=(?:\d|ans\b|pi\b|e\b))", r"\1 * ", expression)
+    expression = re.sub(r"(\d+(?:\.\d+)?)\s*(?=(?:ans\b|pi\b|e\b))", r"\1 * ", expression)
     return expression
 
 
@@ -205,11 +213,13 @@ def show_help(topic=None):
     print("  ans / 2 + 7")
     print("  sqrt 144")
     print("  sin(30) + cos(60)")
-    print("  2 * pi")
+    print("  2pi")
     print("  200 * 15%")
+    print("  2(3 + 4)")
     print("\nTehted: +, -, *, /, ^, **, %")
     print("Funktsioonid: sqrt, abs, sin, cos, tan, log")
     print("Konstandid: pi, e")
+    print("Korrutamisel võib * mõnikord ära jätta: 2pi, 2(3 + 4), 3sqrt(9)")
     print("Käsud: help, history, clear")
     print("Täpsema abi jaoks: help <teema>, näiteks help sqrt")
 
