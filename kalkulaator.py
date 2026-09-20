@@ -1,6 +1,7 @@
 import ast
 import math
 import operator
+import re
 
 COMMANDS = ("help", "history", "clear")
 CONSTANTS = {
@@ -110,8 +111,15 @@ def evaluate_node(node, ans):
 
 
 def normalize_expression(expression):
-    """Lubab funktsioone kirjutada ka kujul 'sqrt 9'."""
-    parts = expression.strip().split(maxsplit=1)
+    """Teisendab kasutajasõbraliku süntaksi AST-le sobivaks."""
+    expression = expression.strip().replace("^", "**")
+
+    # Postfix-protsent: 15% -> (15 / 100), samal ajal jääb 10 % 3 jäägitehteks.
+    percent_pattern = r"(\b(?:\d+(?:\.\d+)?|ans|pi|e)|\))\s*%(?=\s*(?:$|[+\-*/)]))"
+    while re.search(percent_pattern, expression):
+        expression = re.sub(percent_pattern, r"(\1 / 100)", expression)
+
+    parts = expression.split(maxsplit=1)
     if len(parts) == 2 and parts[0] in ("sqrt", "abs", "sin", "cos", "tan", "log"):
         return f"{parts[0]}({parts[1]})"
     return expression
@@ -141,12 +149,14 @@ def show_help():
     print("Näited:")
     print("  5 + 3 * 2")
     print("  (5 + 3) * 2")
-    print("  2 ** 3 + 4")
+    print("  2 ^ 3 + 4")
     print("  ans / 2 + 7")
     print("  sqrt 144")
     print("  sin(30) + cos(60)")
     print("  2 * pi")
-    print("\nTehted: +, -, *, /, **, %")
+    print("  200 * 15%")
+    print("\nTehted: +, -, *, /, ^, **, %")
+    print("Protsent: näiteks 200 * 15%")
     print("Funktsioonid: sqrt, abs, sin, cos, tan, log")
     print("Konstandid: pi, e")
     print("sin, cos ja tan kasutavad kraade.")
