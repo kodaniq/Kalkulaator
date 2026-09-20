@@ -16,7 +16,8 @@ Pythonis kirjutatud käsurea kalkulaator, mis toetab mitme tehtega avaldisi, sul
 - Matemaatilised konstandid `pi` ja `e`
 - `ans` eelmise vastuse kasutamiseks
 - `help`, `history` ja `clear`
-- Vigaste sisendite kontroll
+- Vigaste sisendite kontroll ja kasulikud veateated
+- Kirjavigade puhul soovitused tuntud funktsioonidele ja nimedele
 - Turvaline AST-põhine parser ilma `eval()`-ita
 - Parseri ja arvutusloogika unit-testid
 - Väliseid teeke pole vaja
@@ -121,11 +122,11 @@ Konstante saab kasutada avaldistes samamoodi nagu tavalisi arve. Trigonomeetrili
 
 Kalkulaator ei kasuta sisendi arvutamiseks `eval()`-i. Avaldis parsitakse Pythoni AST abil ning lubatud on ainult numbrid, kalkulaatori matemaatilised tehted, toetatud funktsioonid, konstandid `pi` ja `e` ning `ans`.
 
-Parser lükkab tagasi tundmatud nimed, atribuutidele ligipääsu, suvalised funktsioonikutsed ja muu mittetoetatud Pythoni süntaksi.
+Parser lükkab tagasi tundmatud nimed, atribuutidele ligipääsu, suvalised funktsioonikutsed ja muu mittetoetatud Pythoni süntaksi. Kui funktsiooni või tuntud nime kirjapilt on piisavalt lähedane, pakub kalkulaator parandust.
 
 ## 🧪 Testid
 
-Projektis on unit-testid nii kalkulaatori arvutusloogika kui ka AST-põhise avaldiste parseri jaoks. Testid kontrollivad muu hulgas tehete järjekorda, sulge, `ans`-i, funktsioone, konstante, `^` astendamist, protsente, jäägitehet, nulliga jagamist ja keelatud sisendeid.
+Projektis on unit-testid nii kalkulaatori arvutusloogika kui ka AST-põhise avaldiste parseri jaoks. Testid kontrollivad muu hulgas tehete järjekorda, sulge, `ans`-i, funktsioone, konstante, `^` astendamist, protsente, jäägitehet, nulliga jagamist, kirjavigade soovitusi, funktsioonide argumentide arvu ja keelatud sisendeid.
 
 ```bash
 python -m unittest discover -s tests -v
@@ -139,7 +140,20 @@ python -m unittest discover -s tests -v
 
 ## ⚠️ Vigade käsitlemine
 
-Kalkulaator kontrollib muu hulgas nulliga jagamist, vigaseid avaldisi, negatiivse arvu ruutjuurt, vigast logaritmi, tundmatuid nimesid ning mittetoetatud süntaksit.
+Kalkulaator kontrollib muu hulgas nulliga jagamist, vigaseid avaldisi, negatiivse arvu ruutjuurt, vigast logaritmi, tundmatuid nimesid, funktsioonide argumentide arvu ning mittetoetatud süntaksit.
+
+Levinud kirjavigade puhul pakub kalkulaator parandust ainult siis, kui sisend on piisavalt sarnane mõne toetatud nime või funktsiooniga:
+
+```text
+> sqr(9)
+Error: tundmatu funktsioon 'sqr'. Kas mõtlesid 'sqrt'?
+
+> pii * 2
+Error: tundmatu nimi 'pii'. Kas mõtlesid 'pi'?
+
+> banana + 1
+Error: tundmatu nimi 'banana'.
+```
 
 ## 🐛 Issues ja ideed
 
