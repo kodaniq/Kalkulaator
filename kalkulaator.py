@@ -5,7 +5,7 @@ import operator
 import os
 import re
 
-COMMANDS = ("history", "clear", "clear history")
+COMMANDS = ("history", "clear", "clear history", "undo")
 CONSTANTS = {
     "pi": math.pi,
     "e": math.e,
@@ -191,6 +191,7 @@ HELP_TOPICS = {
     "^": ("^ või ** — astendamine.", "Näide: 2 ^ 10 → 1024"),
     "history": ("history — näitab selle käivituse arvutuste ajalugu.",),
     "clear": ("clear — puhastab terminali ekraani.", "clear history — tühjendab arvutuste ajaloo."),
+    "undo": ("undo — eemaldab viimase arvutuse ja taastab eelmise ans väärtuse.",),
 }
 
 
@@ -228,7 +229,7 @@ def show_help(topic=None):
     print("Funktsioonid: sqrt, abs, sin, cos, tan, log")
     print("Konstandid: pi, e")
     print("Korrutamisel võib * mõnikord ära jätta: 2pi, 2(3 + 4), 3sqrt(9)")
-    print("Käsud: help, history, clear, clear history")
+    print("Käsud: help, history, undo, clear, clear history")
     print("Täpsema abi jaoks: help <teema>, näiteks help sqrt")
 
 
@@ -238,12 +239,26 @@ def show_history(history):
         print("Ajalugu on tühi.")
         return
     for number, calculation in enumerate(history, start=1):
-        print(f"{number}. {calculation}")
+        expression, result = calculation
+        print(f"{number}. {expression} = {format_number(result)}")
 
 
 def clear_screen():
     """Puhastab terminali ekraani Windowsis, macOS-is ja Linuxis."""
     os.system("cls" if os.name == "nt" else "clear")
+
+
+def undo(history):
+    """Eemaldab viimase arvutuse ja tagastab eelmise ans väärtuse."""
+    if not history:
+        print("Midagi pole tagasi võtta.")
+        return None
+
+    history.pop()
+    new_ans = history[-1][1] if history else None
+    print("Eelmine arvutus eemaldatud.")
+    print(f"ans = {format_number(new_ans)}" if new_ans is not None else "ans on tühi.")
+    return new_ans
 
 
 def handle_command(command, history):
@@ -262,7 +277,7 @@ def main():
 
     print("Kalkulaator")
     print("Sisesta avaldis, näiteks: (5 + 3) * 2 või sin(30) + cos(60)")
-    print("Käsud: help, history, clear")
+    print("Käsud: help, history, undo, clear, clear history")
 
     while True:
         expression = input("\n> ").strip()
@@ -273,8 +288,14 @@ def main():
             show_help(topic)
             continue
 
+        if lowered == "undo":
+            ans = undo(history)
+            continue
+
         if lowered in COMMANDS:
             handle_command(lowered, history)
+            if lowered == "clear history":
+                ans = None
             continue
 
         if not expression:
@@ -285,7 +306,7 @@ def main():
             ans = result
             formatted = format_number(result)
             print("Vastus:", formatted)
-            history.append(f"{expression} = {formatted}")
+            history.append((expression, result))
         except ValueError as error:
             print("Error:", error)
 
