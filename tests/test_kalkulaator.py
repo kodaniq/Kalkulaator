@@ -84,6 +84,18 @@ class ExpressionParserTests(unittest.TestCase):
     def test_decimal_comma_with_implicit_multiplication(self):
         self.assertAlmostEqual(parse_expression("2,5pi", None), 2.5 * math.pi)
 
+    def test_multiplication_symbol(self):
+        self.assertEqual(parse_expression("5 × 3", None), 15)
+
+    def test_division_symbol(self):
+        self.assertEqual(parse_expression("10 ÷ 2", None), 5)
+
+    def test_original_multiplication_and_division_still_work(self):
+        self.assertEqual(parse_expression("5 * 3 + 10 / 2", None), 20)
+
+    def test_unicode_symbols_in_expression(self):
+        self.assertEqual(parse_expression("2 × (3 + 4) ÷ 2", None), 7)
+
     def test_caret_power(self):
         self.assertEqual(parse_expression("2 ^ 10", None), 1024)
 
