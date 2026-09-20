@@ -4,7 +4,7 @@
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-Pythonis kirjutatud käsurea kalkulaator, mis toetab mitme tehtega avaldisi, sulge, teaduslikke funktsioone ja arvutuste ajalugu.
+Pythonis kirjutatud käsurea kalkulaator, mis toetab mitme tehtega avaldisi, sulge, teaduslikke funktsioone, matemaatilisi konstante ja arvutuste ajalugu.
 
 ## ✨ Funktsioonid
 
@@ -13,10 +13,12 @@ Pythonis kirjutatud käsurea kalkulaator, mis toetab mitme tehtega avaldisi, sul
 - Sulud
 - Liitmine, lahutamine, korrutamine, jagamine, astendamine ja jääk
 - `sqrt`, `abs`, `sin`, `cos`, `tan` ja `log`
+- Matemaatilised konstandid `pi` ja `e`
 - `ans` eelmise vastuse kasutamiseks
 - `help`, `history` ja `clear`
 - Vigaste sisendite kontroll
 - Turvaline AST-põhine parser ilma `eval()`-ita
+- Parseri ja arvutusloogika unit-testid
 - Väliseid teeke pole vaja
 
 ## 📋 Nõuded
@@ -56,9 +58,12 @@ Vastus: 13
 
 > sin(30) + cos(60)
 Vastus: 1
+
+> 2 * pi
+Vastus: 6.283185307
 ```
 
-Tühikud pole enam kohustuslikud: nii `5+3` kui ka `5 + 3` töötavad.
+Tühikud pole kohustuslikud: nii `5+3` kui ka `5 + 3` töötavad.
 
 ## ➗ Tehted ja funktsioonid
 
@@ -79,6 +84,15 @@ Tühikud pole enam kohustuslikud: nii `5+3` kui ka `5 + 3` töötavad.
 
 Lihtsad funktsioonid töötavad ka ilma sulgudeta, näiteks `sqrt 144`.
 
+## 🔢 Konstandid
+
+| Konstant | Tähendus | Näide |
+| --- | --- | --- |
+| `pi` | π | `2 * pi` → 6.283185307 |
+| `e` | Euleri arv | `e ** 2` → 7.389056099 |
+
+Konstante saab kasutada avaldistes samamoodi nagu tavalisi arve. Trigonomeetrilised funktsioonid `sin`, `cos` ja `tan` kasutavad endiselt kraade.
+
 ## ⌨️ Käsud
 
 | Käsk | Tegevus |
@@ -94,11 +108,13 @@ Lihtsad funktsioonid töötavad ka ilma sulgudeta, näiteks `sqrt 144`.
 
 ## 🔐 Avaldiste turvalisus
 
-Kalkulaator ei kasuta sisendi arvutamiseks `eval()`-i. Avaldis parsitakse Pythoni AST abil ning lubatud on ainult numbrid, kalkulaatori matemaatilised tehted, toetatud funktsioonid ja `ans`.
+Kalkulaator ei kasuta sisendi arvutamiseks `eval()`-i. Avaldis parsitakse Pythoni AST abil ning lubatud on ainult numbrid, kalkulaatori matemaatilised tehted, toetatud funktsioonid, konstandid `pi` ja `e` ning `ans`.
+
+Parser lükkab tagasi tundmatud nimed, atribuutidele ligipääsu, suvalised funktsioonikutsed ja muu mittetoetatud Pythoni süntaksi.
 
 ## 🧪 Testid
 
-Projektis on unit-testid kalkulaatori arvutusloogika jaoks:
+Projektis on unit-testid nii kalkulaatori arvutusloogika kui ka AST-põhise avaldiste parseri jaoks. Testid kontrollivad muu hulgas tehete järjekorda, sulge, `ans`-i, funktsioone, konstante, nulliga jagamist ja keelatud sisendeid.
 
 ```bash
 python -m unittest discover -s tests -v
@@ -112,7 +128,7 @@ python -m unittest discover -s tests -v
 
 ## ⚠️ Vigade käsitlemine
 
-Kalkulaator kontrollib muu hulgas nulliga jagamist, vigaseid avaldisi, negatiivse arvu ruutjuurt, vigast logaritmi ning mittetoetatud süntaksit.
+Kalkulaator kontrollib muu hulgas nulliga jagamist, vigaseid avaldisi, negatiivse arvu ruutjuurt, vigast logaritmi, tundmatuid nimesid ning mittetoetatud süntaksit.
 
 ## 🐛 Issues ja ideed
 
