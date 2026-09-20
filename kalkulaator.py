@@ -1,4 +1,5 @@
 import ast
+import difflib
 import math
 import operator
 import re
@@ -20,6 +21,14 @@ UNARY_OPERATORS = {
     ast.UAdd: operator.pos,
     ast.USub: operator.neg,
 }
+FUNCTIONS = ("sqrt", "abs", "sin", "cos", "tan", "log")
+KNOWN_NAMES = (*FUNCTIONS, *CONSTANTS, "ans")
+
+
+def suggestion(name, choices):
+    """Pakub ainult piisavalt sarnase kirjavea korral parandust."""
+    matches = difflib.get_close_matches(name, choices, n=1, cutoff=0.7)
+    return matches[0] if matches else None
 
 
 def calculate(arv1, tehe, arv2=None):
@@ -82,7 +91,11 @@ def evaluate_node(node, ans):
             return ans
         if node.id in CONSTANTS:
             return CONSTANTS[node.id]
-        raise ValueError(f"tundmatu nimi: {node.id}.")
+        guessed = suggestion(node.id, KNOWN_NAMES)
+        message = f"tundmatu nimi '{node.id}'."
+        if guessed:
+            message += f" Kas mõtlesid '{guessed}'?"
+        raise ValueError(message)
 
     if isinstance(node, ast.BinOp) and type(node.op) in BINARY_OPERATORS:
         left = evaluate_node(node.left, ans)
@@ -98,14 +111,21 @@ def evaluate_node(node, ans):
         return UNARY_OPERATORS[type(node.op)](evaluate_node(node.operand, ans))
 
     if isinstance(node, ast.Call):
-        if (
-            not isinstance(node.func, ast.Name)
-            or node.func.id not in ("sqrt", "abs", "sin", "cos", "tan", "log")
-            or len(node.args) != 1
-            or node.keywords
-        ):
+        if not isinstance(node.func, ast.Name):
             raise ValueError("tundmatu funktsioon.")
-        return calculate(evaluate_node(node.args[0], ans), node.func.id)
+
+        function_name = node.func.id
+        if function_name not in FUNCTIONS:
+            guessed = suggestion(function_name, FUNCTIONS)
+            message = f"tundmatu funktsioon '{function_name}'."
+            if guessed:
+                message += f" Kas mõtlesid '{guessed}'?"
+            raise ValueError(message)
+
+        if len(node.args) != 1 or node.keywords:
+            raise ValueError(f"funktsioon '{function_name}' vajab täpselt ühte argumenti.")
+
+        return calculate(evaluate_node(node.args[0], ans), function_name)
 
     raise ValueError("avaldis sisaldab mittetoetatud süntaksit.")
 
@@ -120,7 +140,7 @@ def normalize_expression(expression):
         expression = re.sub(percent_pattern, r"(\1 / 100)", expression)
 
     parts = expression.split(maxsplit=1)
-    if len(parts) == 2 and parts[0] in ("sqrt", "abs", "sin", "cos", "tan", "log"):
+    if len(parts) == 2 and parts[0] in FUNCTIONS:
         return f"{parts[0]}({parts[1]})"
     return expression
 
