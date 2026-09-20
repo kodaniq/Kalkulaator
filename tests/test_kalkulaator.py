@@ -72,6 +72,18 @@ class ExpressionParserTests(unittest.TestCase):
     def test_parentheses(self):
         self.assertEqual(parse_expression("(2 + 3) * 4", None), 20)
 
+    def test_caret_power(self):
+        self.assertEqual(parse_expression("2 ^ 10", None), 1024)
+
+    def test_postfix_percentage(self):
+        self.assertEqual(parse_expression("200 * 15%", None), 30)
+
+    def test_percentage_of_ans(self):
+        self.assertEqual(parse_expression("ans * 25%", 80), 20)
+
+    def test_modulo_still_works(self):
+        self.assertEqual(parse_expression("10 % 3", None), 1)
+
     def test_ans(self):
         self.assertEqual(parse_expression("ans / 2 + 7", 12), 13)
 
