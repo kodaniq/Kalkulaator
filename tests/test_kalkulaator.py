@@ -3,8 +3,9 @@ import unittest
 
 from contextlib import redirect_stdout
 from io import StringIO
+from unittest.mock import patch
 
-from kalkulaator import calculate, parse_expression, show_help
+from kalkulaator import calculate, clear_screen, handle_command, parse_expression, show_help
 
 
 class CalculatorTests(unittest.TestCase):
@@ -183,6 +184,26 @@ class ExpressionParserTests(unittest.TestCase):
     def test_division_by_zero_in_expression(self):
         with self.assertRaisesRegex(ValueError, "nulliga"):
             parse_expression("10 / (5 - 5)", None)
+
+
+class CommandTests(unittest.TestCase):
+    @patch("kalkulaator.os.system")
+    def test_clear_screen_uses_platform_command(self, mock_system):
+        clear_screen()
+        expected = "cls" if __import__("os").name == "nt" else "clear"
+        mock_system.assert_called_once_with(expected)
+
+    @patch("kalkulaator.clear_screen")
+    def test_clear_does_not_delete_history(self, mock_clear_screen):
+        history = ["2 + 2 = 4"]
+        handle_command("clear", history)
+        self.assertEqual(history, ["2 + 2 = 4"])
+        mock_clear_screen.assert_called_once()
+
+    def test_clear_history_deletes_history(self):
+        history = ["2 + 2 = 4"]
+        handle_command("clear history", history)
+        self.assertEqual(history, [])
 
 
 class HelpTests(unittest.TestCase):
