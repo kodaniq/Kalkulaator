@@ -11,7 +11,7 @@ Pythonis kirjutatud käsurea kalkulaator, mis toetab mitme tehtega avaldisi, sul
 - Mitu tehet ühes avaldises
 - Õige tehete järjekord
 - Sulud
-- Liitmine, lahutamine, korrutamine, jagamine, astendamine ja jääk
+- Liitmine, lahutamine, korrutamine, jagamine, astendamine, protsendid ja jääk
 - `sqrt`, `abs`, `sin`, `cos`, `tan` ja `log`
 - Matemaatilised konstandid `pi` ja `e`
 - `ans` eelmise vastuse kasutamiseks
@@ -50,7 +50,7 @@ Vastus: 11
 > (5 + 3) * 2
 Vastus: 16
 
-> 2 ** 3 + 4
+> 2 ^ 3 + 4
 Vastus: 12
 
 > ans / 2 + 7
@@ -61,6 +61,9 @@ Vastus: 1
 
 > 2 * pi
 Vastus: 6.283185307
+
+> 200 * 15%
+Vastus: 30
 ```
 
 Tühikud pole kohustuslikud: nii `5+3` kui ka `5 + 3` töötavad.
@@ -73,8 +76,9 @@ Tühikud pole kohustuslikud: nii `5+3` kui ka `5 + 3` töötavad.
 | `-` | Lahutamine | `5 - 3` → 2 |
 | `*` | Korrutamine | `5 * 3` → 15 |
 | `/` | Jagamine | `6 / 3` → 2 |
-| `**` | Astendamine | `2 ** 3` → 8 |
-| `%` | Jäägi leidmine | `10 % 3` → 1 |
+| `^` või `**` | Astendamine | `2 ^ 3` → 8 |
+| `15%` | Protsent | `200 * 15%` → 30 |
+| `%` | Jäägi leidmine kahe arvu vahel | `10 % 3` → 1 |
 | `sqrt(x)` | Ruutjuur | `sqrt(9)` → 3 |
 | `abs(x)` | Absoluutväärtus | `abs(-5)` → 5 |
 | `sin(x)` | Siinus kraadides | `sin(90)` → 1 |
@@ -82,7 +86,7 @@ Tühikud pole kohustuslikud: nii `5+3` kui ka `5 + 3` töötavad.
 | `tan(x)` | Tangens kraadides | `tan(45)` → 1 |
 | `log(x)` | Kümnendlogaritm | `log(100)` → 2 |
 
-Lihtsad funktsioonid töötavad ka ilma sulgudeta, näiteks `sqrt 144`.
+Lihtsad funktsioonid töötavad ka ilma sulgudeta, näiteks `sqrt 144`. Astendamiseks saab kasutada nii `^` kui ka `**`. Protsendi saab kirjutada otse arvu järele, näiteks `15%`; tühikutega kahe arvu vahel olev `%` töötab endiselt jäägitehtena.
 
 ## 🔢 Konstandid
 
@@ -121,7 +125,7 @@ Parser lükkab tagasi tundmatud nimed, atribuutidele ligipääsu, suvalised funk
 
 ## 🧪 Testid
 
-Projektis on unit-testid nii kalkulaatori arvutusloogika kui ka AST-põhise avaldiste parseri jaoks. Testid kontrollivad muu hulgas tehete järjekorda, sulge, `ans`-i, funktsioone, konstante, nulliga jagamist ja keelatud sisendeid.
+Projektis on unit-testid nii kalkulaatori arvutusloogika kui ka AST-põhise avaldiste parseri jaoks. Testid kontrollivad muu hulgas tehete järjekorda, sulge, `ans`-i, funktsioone, konstante, `^` astendamist, protsente, jäägitehet, nulliga jagamist ja keelatud sisendeid.
 
 ```bash
 python -m unittest discover -s tests -v
