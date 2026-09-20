@@ -20,7 +20,7 @@ Pythonis kirjutatud käsurea kalkulaator, mis toetab mitme tehtega avaldisi, sul
 - `undo` viimase arvutuse eemaldamiseks ja eelmise `ans` väärtuse taastamiseks
 - `help`, teemakohane `help <teema>`, `history`, ekraani puhastav `clear` ja ajaloo jaoks `clear history`
 - Vigaste sisendite kontroll ja täpsemad veateated, näiteks puuduva sulu või vigase tehtemärgi kohta
-- Kirjavigade puhul soovitused tuntud funktsioonidele ja nimedele
+- Kirjavigade puhul soovitused tuntud funktsioonidele, nimedele ja käskudele
 - Turvaline AST-põhine parser ilma `eval()`-ita
 - Parseri ja arvutusloogika unit-testid
 - Väliseid teeke pole vaja
@@ -155,7 +155,7 @@ ans — eelmise arvutuse tulemus.
 Näide: ans / 2
 ```
 
-Ka abiteemade kirjavigade puhul kasutatakse soovitusi, näiteks `help sqr` pakub `sqrt`.
+Ka abiteemade ja käskude kirjavigade puhul kasutatakse soovitusi. Näiteks `help sqr` pakub `sqrt`, `histroy` pakub `history` ja `udno` pakub `undo`.
 
 ## 🕘 Arvutuste ajalugu
 
@@ -180,7 +180,7 @@ Parser lükkab tagasi tundmatud nimed, atribuutidele ligipääsu, suvalised funk
 
 ## 🧪 Testid
 
-Projektis on unit-testid nii kalkulaatori arvutusloogika kui ka AST-põhise avaldiste parseri jaoks. Testid kontrollivad muu hulgas tehete järjekorda, sulge, `ans`-i, funktsioone, konstante, koma ja punktiga kümnendarve, `×` ja `÷` sümboleid koos tavaliste `*` ja `/` märkidega, implitsiitset korrutamist, `^` astendamist, protsente, jäägitehet, nulliga jagamist, kirjavigade soovitusi, teemakohast abi, `undo`, `clear` ja `clear history` käitumist, täpsemaid süntaksiveateateid, funktsioonide argumentide arvu ja keelatud sisendeid.
+Projektis on unit-testid nii kalkulaatori arvutusloogika kui ka AST-põhise avaldiste parseri jaoks. Testid kontrollivad muu hulgas tehete järjekorda, sulge, `ans`-i, funktsioone, konstante, koma ja punktiga kümnendarve, `×` ja `÷` sümboleid koos tavaliste `*` ja `/` märkidega, implitsiitset korrutamist, `^` astendamist, protsente, jäägitehet, nulliga jagamist, kirjavigade soovitusi funktsioonidele, nimedele ja käskudele, teemakohast abi, `undo`, `clear` ja `clear history` käitumist, täpsemaid süntaksiveateateid, funktsioonide argumentide arvu ja keelatud sisendeid.
 
 ```bash
 python -m unittest discover -s tests -v
@@ -209,6 +209,12 @@ Error: tundmatu nimi 'pii'. Kas mõtlesid 'pi'?
 
 > banana + 1
 Error: tundmatu nimi 'banana'.
+
+> histroy
+Tundmatu käsk 'histroy'. Kas mõtlesid 'history'?
+
+> cler history
+Tundmatu käsk 'cler history'. Kas mõtlesid 'clear history'?
 ```
 
 ## 🐛 Issues ja ideed
