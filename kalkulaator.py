@@ -4,7 +4,7 @@ import math
 import operator
 import re
 
-COMMANDS = ("help", "history", "clear")
+COMMANDS = ("history", "clear")
 CONSTANTS = {
     "pi": math.pi,
     "e": math.e,
@@ -164,7 +164,39 @@ def parse_expression(expression, ans):
     return result
 
 
-def show_help():
+HELP_TOPICS = {
+    "sqrt": ("sqrt(x) — leiab ruutjuure.", "Näide: sqrt(144) → 12"),
+    "abs": ("abs(x) — leiab absoluutväärtuse.", "Näide: abs(-5) → 5"),
+    "sin": ("sin(x) — leiab siinuse kraadides.", "Näide: sin(90) → 1"),
+    "cos": ("cos(x) — leiab koosinuse kraadides.", "Näide: cos(180) → -1"),
+    "tan": ("tan(x) — leiab tangensi kraadides.", "Näide: tan(45) → 1"),
+    "log": ("log(x) — leiab kümnendlogaritmi.", "Näide: log(100) → 2"),
+    "pi": ("pi — matemaatiline konstant π.", "Näide: 2 * pi → 6.283185307"),
+    "e": ("e — Euleri arv.", "Näide: e ^ 2 → 7.389056099"),
+    "ans": ("ans — eelmise arvutuse tulemus.", "Näide: ans / 2"),
+    "%": ("15% — protsent; kahe arvu vahel olev % on jäägitehe.", "Näited: 200 * 15% → 30, 10 % 3 → 1"),
+    "^": ("^ või ** — astendamine.", "Näide: 2 ^ 10 → 1024"),
+    "history": ("history — näitab selle käivituse arvutuste ajalugu.",),
+    "clear": ("clear — tühjendab arvutuste ajaloo.",),
+}
+
+
+def show_help(topic=None):
+    if topic:
+        topic = topic.lower()
+        if topic in HELP_TOPICS:
+            print(f"\n--- Abi: {topic} ---")
+            for line in HELP_TOPICS[topic]:
+                print(line)
+            return
+
+        guessed = suggestion(topic, HELP_TOPICS)
+        if guessed:
+            print(f"Tundmatu abiteema '{topic}'. Kas mõtlesid '{guessed}'?")
+        else:
+            print(f"Tundmatu abiteema '{topic}'.")
+        return
+
     print("\n--- Abi ---")
     print("Näited:")
     print("  5 + 3 * 2")
@@ -176,12 +208,10 @@ def show_help():
     print("  2 * pi")
     print("  200 * 15%")
     print("\nTehted: +, -, *, /, ^, **, %")
-    print("Protsent: näiteks 200 * 15%")
     print("Funktsioonid: sqrt, abs, sin, cos, tan, log")
     print("Konstandid: pi, e")
-    print("sin, cos ja tan kasutavad kraade.")
-    print("ans kasutab eelmise arvutuse vastust.")
     print("Käsud: help, history, clear")
+    print("Täpsema abi jaoks: help <teema>, näiteks help sqrt")
 
 
 def show_history(history):
@@ -194,9 +224,7 @@ def show_history(history):
 
 
 def handle_command(command, history):
-    if command == "help":
-        show_help()
-    elif command == "history":
+    if command == "history":
         show_history(history)
     elif command == "clear":
         history.clear()
@@ -214,8 +242,14 @@ def main():
     while True:
         expression = input("\n> ").strip()
 
-        if expression.lower() in COMMANDS:
-            handle_command(expression.lower(), history)
+        lowered = expression.lower()
+        if lowered == "help" or lowered.startswith("help "):
+            topic = expression.split(maxsplit=1)[1] if " " in expression else None
+            show_help(topic)
+            continue
+
+        if lowered in COMMANDS:
+            handle_command(lowered, history)
             continue
 
         if not expression:
