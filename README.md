@@ -13,7 +13,7 @@ Pythonis kirjutatud käsurea kalkulaator, mis toetab mitme tehtega avaldisi, sul
 - Sulud
 - Eesti komakohad, näiteks `2,5 + 1,5`
 - Implitsiitne korrutamine, näiteks `2pi`, `2(3 + 4)` ja `3sqrt(9)`
-- Liitmine, lahutamine, korrutamine (`*` või `×`), jagamine (`/` või `÷`), astendamine, kalkulaatori-stiilis protsendid ja jääk
+- Liitmine, lahutamine, korrutamine (`*`, `x` või `×`), jagamine (`/` või `÷`), astendamine, kalkulaatori-stiilis protsendid ja jääk
 - `sqrt`, `abs`, `sin`, `cos`, `tan` ja `log`
 - Matemaatilised konstandid `pi` ja `e`
 - `ans` eelmise vastuse kasutamiseks
@@ -60,6 +60,9 @@ Vastus: 6.28
 > 5 × 3
 Vastus: 15
 
+> 2x(5+26) - 32
+Vastus: 30
+
 > 10 ÷ 2
 Vastus: 5
 
@@ -102,7 +105,7 @@ Tühikud pole kohustuslikud: nii `5+3` kui ka `5 + 3` töötavad. Komakohaga arv
 | --- | --- | --- |
 | `+` | Liitmine | `5 + 3` → 8 |
 | `-` | Lahutamine | `5 - 3` → 2 |
-| `*` või `×` | Korrutamine | `5 × 3` → 15 |
+| `*`, `x` või `×` | Korrutamine | `2x(5+26) - 32` → 30 |
 | `/` või `÷` | Jagamine | `6 ÷ 3` → 2 |
 | `^` või `**` | Astendamine | `2 ^ 3` → 8 |
 | `+ 15%` / `- 15%` | Protsendi lisamine või lahutamine eelnevast arvust | `200 + 15%` → 230 |
@@ -115,7 +118,7 @@ Tühikud pole kohustuslikud: nii `5+3` kui ka `5 + 3` töötavad. Komakohaga arv
 | `tan(x)` | Tangens kraadides | `tan(45)` → 1 |
 | `log(x)` | Kümnendlogaritm | `log(100)` → 2 |
 
-Tavalised `*` ja `/` märgid jäävad täielikult toetatuks; lisaks saab kasutada kalkulaatoritest tuttavaid `×` ja `÷` märke. Lihtsad funktsioonid töötavad ka ilma sulgudeta, näiteks `sqrt 144`. Implitsiitne korrutamine võimaldab kirjutada loomulikumalt `2pi`, `2(3 + 4)`, `3sqrt(9)` ja `(2 + 3)(4 + 5)` ilma `*` märgita. Astendamiseks saab kasutada nii `^` kui ka `**`. Protsendi saab kirjutada otse arvu järele. Liitmisel ja lahutamisel käitub see nagu tavakalkulaatoris: `200 + 15%` → 230 ja `200 - 15%` → 170. Korrutamisel jääb `200 * 15%` → 30. Tühikutega kahe arvu vahel olev `%` töötab endiselt jäägitehtena.
+Korrutamiseks saab kasutada `*`, `x` või `×` ning jagamiseks `/` või `÷`. Näiteks `2x(5+26) - 32` annab 30. Lihtsad funktsioonid töötavad ka ilma sulgudeta, näiteks `sqrt 144`. Implitsiitne korrutamine võimaldab kirjutada loomulikumalt `2pi`, `2(3 + 4)`, `3sqrt(9)` ja `(2 + 3)(4 + 5)` ilma `*` märgita. Astendamiseks saab kasutada nii `^` kui ka `**`. Protsendi saab kirjutada otse arvu järele. Liitmisel ja lahutamisel käitub see nagu tavakalkulaatoris: `200 + 15%` → 230 ja `200 - 15%` → 170. Korrutamisel jääb `200 * 15%` → 30. Tühikutega kahe arvu vahel olev `%` töötab endiselt jäägitehtena.
 
 ## 🔢 Konstandid
 
@@ -187,7 +190,7 @@ Parser lükkab tagasi tundmatud nimed, atribuutidele ligipääsu, suvalised funk
 
 ## 🧪 Testid
 
-Projektis on unit-testid nii kalkulaatori arvutusloogika kui ka AST-põhise avaldiste parseri jaoks. Testid kontrollivad muu hulgas tehete järjekorda, sulge, `ans`-i, funktsioone, konstante, koma ja punktiga kümnendarve, `×` ja `÷` sümboleid koos tavaliste `*` ja `/` märkidega, implitsiitset korrutamist, `^` astendamist, kalkulaatori-stiilis protsentide liitmist ja lahutamist, protsentidega korrutamist, jäägitehet, nulliga jagamist, kirjavigade soovitusi funktsioonidele, nimedele ja käskudele, teemakohast abi, `undo`, `clear` ja `clear history` käitumist, täpsemaid süntaksiveateateid, funktsioonide argumentide arvu ja keelatud sisendeid.
+Projektis on unit-testid nii kalkulaatori arvutusloogika kui ka AST-põhise avaldiste parseri jaoks. Testid kontrollivad muu hulgas tehete järjekorda, sulge, `ans`-i, funktsioone, konstante, koma ja punktiga kümnendarve, `x`, `×` ja `÷` sümboleid koos tavaliste `*` ja `/` märkidega, implitsiitset korrutamist, `^` astendamist, kalkulaatori-stiilis protsentide liitmist ja lahutamist, protsentidega korrutamist, jäägitehet, nulliga jagamist, kirjavigade soovitusi funktsioonidele, nimedele ja käskudele, teemakohast abi, `undo`, `clear` ja `clear history` käitumist, täpsemaid süntaksiveateateid, funktsioonide argumentide arvu ja keelatud sisendeid.
 
 ```bash
 python -m unittest discover -s tests -v
